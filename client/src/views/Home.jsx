@@ -6,8 +6,11 @@ function Home() {
 
 
   return (
-    <div>
-      <h1 className='container'>Welcome to the PhilosophyApp!</h1>
+    <div className='home'>
+      <div className='container'>
+        <h1>Welcome to the PhilosophyApp!</h1>
+        <h3>A place where Philosophy lovers can wander and enjoy themselves...</h3>
+      </div>
     </div>
   );
 }

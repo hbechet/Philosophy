@@ -9,7 +9,6 @@
 
 .header {
     background-color: wheat;
-    margin-bottom: 50px;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -52,6 +51,17 @@
     &:hover {
         color: white;
     }
+}
+
+.home {
+    padding-top: 75px;
+    height: 90vh;
+    color: white;
+    text-shadow: 1px 1px 10px black;
+    background-image: url('../../public/Greek-Philosophers.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .searchbar {
