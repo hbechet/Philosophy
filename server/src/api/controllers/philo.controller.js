@@ -3,10 +3,54 @@ const Philosopher = require('../models/philo.model');
 const getAllPhilos = async (req, res) => {
     try {
         const allPhilos = await Philosopher.find()
-        res.status(201).json({ success: true, data: allPhilos })
+        res.status(200).json({ success: true, data: allPhilos })
     } catch (error) {
-        res.json(error);
+        res.status(400).json({ success: false, data: error });
+    }
+};
+
+const getPhilobyId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const filteredPhilo = await Philosopher.findById(id)
+        res.status(200).json({ success: true, data: filteredPhilo })
+    } catch (error) {
+        res.status(400).json({ success: false, data: error });
     }
 }
 
-module.exports = { getAllPhilos };
+const createPhilosopher = async (req, res) => {
+    try {
+        const newPhilo = new Philosopher(req.body);
+        const findPhilo = await Philosopher.find({ name: newPhilo.name });
+
+        if (findPhilo.length === 0) {
+            const createdPhilo = await newPhilo.save();
+            res.status(201).json({ success: true, data: createdPhilo })
+        } else {
+            res.status(200).json({ success: false, message: 'Philosopher already exists!' })
+        }
+    } catch (error) {
+        res.status(400).json({ success: false, data: error });
+    }
+}
+
+const deletePhilosopher = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (id) {
+            const deletedPhilo = await Philosopher.findByIdAndDelete(id)
+            if (!deletedPhilo) {
+                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' })
+            } else {
+                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher deleted successfully!', deletedPhilosopher: deletedPhilo })
+            }
+        } else {
+            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' })
+        }
+    } catch (error) {
+        res.status(400).json({ success: false, data: error });
+    }
+};
+
+module.exports = { getAllPhilos, getPhilobyId, createPhilosopher, deletePhilosopher };

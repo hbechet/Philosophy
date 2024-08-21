@@ -1,15 +1,12 @@
 // Table.jsx
 import React, { useState } from 'react';
-import SearchBar from '../components/SearchBar';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-const Philosophers = ({ rows }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+const Philosophers = () => {
 
   return (
     <div className="container">
-      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src="holder.js/100px180" />
         <Card.Body>
