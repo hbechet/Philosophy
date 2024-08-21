@@ -12,8 +12,6 @@ const arrayPhilosophers = [
         schools: [
             "Rationalism",
             "Cartesianism",
-            "Mechanism",
-            "Augustinianism",
             "Foundationalism"
         ],
         ideas: [
@@ -116,7 +114,6 @@ const arrayPhilosophers = [
         schools: [
             "Conceptualism",
             "Continental philosophy",
-            "German idealism",
             "Objective idealism",
             "Hegelianism"
         ],
@@ -140,8 +137,7 @@ const arrayPhilosophers = [
         nationality: "German",
         schools: [
             "Anthropological materialism",
-            "Secular humanism",
-            "Young Hegelians"
+            "Secular humanism"
         ],
         ideas: [
             "I would rather be a devil in alliance with truth, than an angel in alliance with falsehood.",
@@ -186,9 +182,7 @@ const arrayPhilosophers = [
         nationality: "German",
         schools: [
             "Continental philosophy",
-            "Existentialism",
-            "Phenomenology",
-            "Hermeneutics"
+            "Existentialism"
         ],
         ideas: [
             "Tell me how you read and I'll tell you who you are",

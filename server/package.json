@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node src/api/seeds/philos.seed.js"
+    "seed": "node src/api/seeds/philos.seed.js",
+    "seed2": "node src/api/seeds/schools.seed.js"
   },
   "keywords": [],
   "author": "",
