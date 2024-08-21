@@ -1,38 +1,26 @@
 // Table.jsx
 import React, { useState } from 'react';
-import Row from '../components/Row';
 import SearchBar from '../components/SearchBar';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 const Philosophers = ({ rows }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredRows = rows
-    .filter((row) => row.id && row.image && row.name && row.quantity && row.provider)
-    .filter((row) =>
-      ['id', 'name', 'quantity', 'provider'].some(
-        (field) => String(row[field]).toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
   return (
     <div className="container">
       <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-      <table className="table table-striped">
-        <tbody>
-          <tr>
-            <th>Id</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Stock</th>
-            <th>Provider</th>
-            <th></th>
-            <th>Actions</th>
-            <th></th>
-          </tr>
-          {filteredRows.map((rowData, index) => (
-            <Row key={index} data={Object.values(rowData)} />
-          ))}
-        </tbody>
-      </table>
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src="holder.js/100px180" />
+        <Card.Body>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </Card.Text>
+          <Button variant="primary">Go somewhere</Button>
+        </Card.Body>
+      </Card>
     </div>
   );
 };
