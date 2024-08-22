@@ -1,7 +1,5 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
-const { deleteFile } = require('../../utils/deleteFileCloud')
-
 const { generateToken, verifyToken } = require('../../utils/jwt')
 
 
@@ -11,9 +9,6 @@ const addUser = async (req, res) => {
         const findUser = await User.find({ email: newUser.email });
         console.log(newUser);
         if (findUser.length === 0) {
-            if (req.file.path) {
-                newUser.image = req.file.path;
-            }
 
             // "Encrypt" password before saving user to database
             newUser.password = bcrypt.hashSync(newUser.password, 10);
@@ -62,7 +57,7 @@ const getProfile = async (req, res) => {
     }
 };
 
-//Delete user and Cloudinary image (if exists)
+//Delete user
 const deleteUser = async (req, res) => {
     try {
         //const loggedAdmin = req.adminData;

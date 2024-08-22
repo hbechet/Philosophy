@@ -1,4 +1,5 @@
 const Philosopher = require('../models/philo.model');
+const { deleteFile } = require('../../utils/deleteFileCloud')
 
 const getAllPhilos = async (req, res) => {
     try {
@@ -29,6 +30,9 @@ const createPhilosopher = async (req, res) => {
         const findPhilo = await Philosopher.find({ name: newPhilo.name });
 
         if (findPhilo.length === 0) {
+            if (req.file.path) {
+                newPhilo.photo = req.file.path;
+            }
             const createdPhilo = await newPhilo.save();
             res.status(201).json({ success: true, data: createdPhilo });
         } else {
@@ -48,6 +52,7 @@ const deletePhilosopher = async (req, res) => {
                 res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
             } else {
                 res.status(200).json({ DeleteSuccess: true, message: 'Philosopher deleted successfully!', deletedPhilosopher: deletedPhilo });
+                deleteFile(deletedPhilo.photo);
             }
         } else {
             res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
