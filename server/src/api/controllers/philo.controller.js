@@ -2,8 +2,8 @@ const Philosopher = require('../models/philo.model');
 
 const getAllPhilos = async (req, res) => {
     try {
-        const allPhilos = await Philosopher.find()
-        res.status(200).json({ success: true, data: allPhilos })
+        const allPhilos = await Philosopher.find();
+        res.status(200).json({ success: true, data: allPhilos });
     } catch (error) {
         res.status(400).json({ success: false, data: error });
     }
@@ -12,8 +12,12 @@ const getAllPhilos = async (req, res) => {
 const getPhilobyId = async (req, res) => {
     try {
         const { id } = req.params;
-        const filteredPhilo = await Philosopher.findById(id)
-        res.status(200).json({ success: true, data: filteredPhilo })
+        const filteredPhilo = await Philosopher.findById(id);
+        if (!filteredPhilo) {
+            res.status(202).json({ success: false, message: 'That ID does NOT exist.' });
+        } else {
+            res.status(200).json({ success: true, data: filteredPhilo });
+        }
     } catch (error) {
         res.status(400).json({ success: false, data: error });
     }
@@ -26,9 +30,9 @@ const createPhilosopher = async (req, res) => {
 
         if (findPhilo.length === 0) {
             const createdPhilo = await newPhilo.save();
-            res.status(201).json({ success: true, data: createdPhilo })
+            res.status(201).json({ success: true, data: createdPhilo });
         } else {
-            res.status(200).json({ success: false, message: 'Philosopher already exists!' })
+            res.status(200).json({ success: false, message: 'Philosopher already exists!' });
         }
     } catch (error) {
         res.status(400).json({ success: false, data: error });
@@ -39,14 +43,14 @@ const deletePhilosopher = async (req, res) => {
     try {
         const { id } = req.params;
         if (id) {
-            const deletedPhilo = await Philosopher.findByIdAndDelete(id)
+            const deletedPhilo = await Philosopher.findByIdAndDelete(id);
             if (!deletedPhilo) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' })
+                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher deleted successfully!', deletedPhilosopher: deletedPhilo })
+                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher deleted successfully!', deletedPhilosopher: deletedPhilo });
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' })
+            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
         }
     } catch (error) {
         res.status(400).json({ success: false, data: error });
@@ -58,14 +62,14 @@ const updatePhilosopher = async (req, res) => {
         const { id } = req.params;
         const updateBody = req.body;
         if (id) {
-            const updatedPhilo = await Philosopher.findByIdAndUpdate(id, updateBody, { new: true })
+            const updatedPhilo = await Philosopher.findByIdAndUpdate(id, updateBody, { new: true });
             if (!updatedPhilo) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' })
+                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher updated successfully!', updatedPhilosopher: updatedPhilo })
+                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher updated successfully!', updatedPhilosopher: updatedPhilo });
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' })
+            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
         }
     } catch (error) {
         res.status(400).json({ success: false, data: error });
