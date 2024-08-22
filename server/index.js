@@ -1,6 +1,7 @@
 const express = require('express');
 const { connectDB } = require('./src/utils/db')
 const routePhilos = require('./src/api/routes/philo.routes');
+const routeSchools = require('./src/api/routes/school.routes');
 const cors = require('cors');
 const server = express();
 
@@ -12,6 +13,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use('/api/philos', routePhilos);
+server.use('/api/schools', routeSchools);
 
 // const data = [
 //     { id: '1', image: 'keyboard.png', name: 'Keyboard', quantity: 4, provider: '101' },
