@@ -30,7 +30,7 @@ const createPhilosopher = async (req, res) => {
         const findPhilo = await Philosopher.find({ name: newPhilo.name });
 
         if (findPhilo.length === 0) {
-            if (req.file.path) {
+            if (findPhilo.hasOwnProperty("file")) {
                 newPhilo.photo = req.file.path;
             }
             const createdPhilo = await newPhilo.save();
@@ -39,7 +39,8 @@ const createPhilosopher = async (req, res) => {
             res.status(200).json({ success: false, message: 'Philosopher already exists!' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: { error: error } });
+        console.log(error);
     }
 }
 

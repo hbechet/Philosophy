@@ -4,7 +4,7 @@ import '../styles/styles.css';
 import useRedirection from '../hooks/useRedirection';
 import Button from 'react-bootstrap/Button';
 
-export const Action = ({ text, path, delay, type, collection }) => {
+export const Action = ({ text, path, delay, type }) => {
     const { redirect, isRedirecting } = useRedirection(path, delay);
     const [buttonClass, setButtonClass] = useState('');
 
@@ -16,10 +16,20 @@ export const Action = ({ text, path, delay, type, collection }) => {
     };
 
     useEffect(() => {
-        if (type === 'primary') {
-            setButtonClass('btn btn-primary');
-        } else {
-            setButtonClass('btn btn-warning');
+        switch (type) {
+            case 'primary':
+                setButtonClass('btn btn-primary');
+                break;
+            case 'secondary':
+                setButtonClass('btn btn-warning');
+                break;
+            case 'danger':
+                setButtonClass('btn btn-danger');
+                break;
+            case 'success':
+                setButtonClass('btn btn-success');
+                break;
+            default: setButtonClass('btn btn-primary');
         }
     }, [type]);
 

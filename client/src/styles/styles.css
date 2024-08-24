@@ -80,17 +80,19 @@
 
 .content {
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
 
     & h4 {
         color: wheat;
         font-weight: 700;
-        text-shadow: 2px 2px black;
+        text-shadow: 1px 1px 3px black;
+
     }
 }
 
 .action-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 

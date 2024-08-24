@@ -11,14 +11,14 @@ const View = () => {
   useEffect(() => {
     setTimeout(() => {
       var res = HandleFetch(id, collection);
-      res.then((data) => {
-        setData(data.data);
+      res.then((info) => {
+        setData(info.data);
       })
         .catch((error) => {
           console.error(`Could not get data: ${error}`);
         })
     }, 2500);
-  }, []);
+  }, [collection, id]);
 
   if (!data) {
     return (
@@ -30,24 +30,19 @@ const View = () => {
       </div>)
   }
 
-  if (collection === 'philos') {
-    var born_date = new Date(data.born_date).toLocaleDateString();
-    var death_date = new Date(data.death_date).toLocaleDateString();
-  }
-
   const returnedData = (collection === 'philos') ? (
     <div className="container content">
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={data.photo} className="img-fluid rounded-start" alt="Element" />
+          <img src={data.photo} className="img-fluid rounded" alt="Element" />
         </div>
         <div className="col-md-8">
           <div className="card-body ms-5">
             <h1>{data.name}</h1>
             <br></br>
             <p><b>Nationality:</b> {data.nationality}</p>
-            <p><b>Born date:</b> {born_date}</p>
-            <p><b>Death date:</b> {death_date}</p>
+            <p><b>Born date:</b> {new Date(data.born_date).toLocaleDateString()}</p>
+            <p><b>Death date:</b> {new Date(data.death_date).toLocaleDateString()}</p>
             <br></br>
             <h4>Main quotes / ideas</h4>
             <ul>
@@ -67,8 +62,16 @@ const View = () => {
       </div>
     </div>
   ) : (
-    <div>
-      <p>ID: {data._id}</p>
+    <div className="container content">
+      <h1>{data.name}</h1>
+      <p>{data.description}</p>
+      <br></br>
+      <h4>Renowned philosophers:</h4>
+      <ul>
+        {data.philosophers.map((philo) => {
+          return <li>{philo}</li>
+        })}
+      </ul>
     </div>
   );
 
