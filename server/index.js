@@ -2,7 +2,7 @@ const express = require('express');
 const { connectDB } = require('./src/utils/db')
 const routePhilos = require('./src/api/routes/philo.routes');
 const routeSchools = require('./src/api/routes/school.routes');
-const routeUsers = require('./src/api/routes/school.routes');
+const routeUsers = require('./src/api/routes/user.routes');
 const cors = require('cors');
 const server = express();
 

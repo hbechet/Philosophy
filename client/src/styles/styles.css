@@ -22,7 +22,7 @@
 
 .logo {
     display: block;
-    height: 100px;
+    height: 85px;
 }
 
 .navbar {
@@ -38,7 +38,7 @@
     margin: 0;
 
     & li {
-        padding: 25px;
+        padding: 0 25px;
     }
 }
 
@@ -46,7 +46,7 @@
     text-decoration: none;
     color: black;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 17px;
 
     &:hover {
         color: white;
@@ -55,7 +55,7 @@
 
 .home {
     padding-top: 75px;
-    height: 85vh;
+    height: 82vh;
     color: white;
     text-shadow: 1px 1px 10px black;
     background-image: url('../../public/Greek-Philosophers.jpg');
