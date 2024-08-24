@@ -11,8 +11,8 @@ const NewElement = () => {
 
   const [newElement, setElementData] = useState({});
   const [newElementID, setID] = useState('');
-  const [response, setResponse] = useState([]);
-  const [error, setError] = useState(null);
+  const [response, setResponse] = useState({});
+  const [error, setError] = useState('');
 
   const createElement = (ev) => {
     ev.preventDefault();
@@ -24,17 +24,21 @@ const NewElement = () => {
         // "Authorization": `Bearer ${token}`, PARA ENVIAR UN TOKEN HACIA EL BACK
       }
     })
-      .then((res) => res.json())
-      .then((res) => setResponse(res.data))
+      .then(res => res.json())
+      .then((info) => {
+        setResponse(info.data)
+        console.log(info.data)
+      })
 
       .catch(err => {
         setError(err);
         console.log('There was an error', err);
       })
-    if (error == null) {
+
+    if (error === '') {
       console.log(response);
-      setID(response._id)
-      navigate(collection === 'philos' ? `/philos/${newElementID}` : `/schools/${newElementID}`);
+      setID(response._id);
+      navigate(collection === 'philos' ? `/view/philos/${newElementID}` : `/view/schools/${newElementID}`);
     }
   };
 

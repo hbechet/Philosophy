@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const schoolSchema = new Schema({
     name: { type: String, require: true },
     description: { type: String, require: true },
-    philosophers: { type: [String], require: true }
+    philosophers: { type: [String] }
 },
     {
         collection: 'schools',

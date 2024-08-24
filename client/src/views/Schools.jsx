@@ -1,20 +1,16 @@
 // Table.jsx
-import React, { useState } from 'react';
 import Row from '../components/Row';
-import SearchBar from '../components/SearchBar';
 
 const Schools = ({ rows }) => {
-  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredRows = rows
     .filter((row) => row.id && row.image && row.name && row.email && row.phone) // Asegúrate de que la fila tenga las propiedades necesarias
     .filter((row) =>
-      Object.values(row).some((cell) => cell.toLowerCase().includes(searchTerm.toLowerCase()))
+      Object.values(row).some((cell) => cell.toLowerCase())
     );
 
   return (
     <div className="container">
-      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       <table className="table table-striped">
         <tbody>
           <tr>
