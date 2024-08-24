@@ -79,6 +79,11 @@
     }
 }
 
+.action-buttons {
+    display: flex;
+    gap: 20px;
+}
+
 .footer {
     padding: 1%;
     position: fixed;

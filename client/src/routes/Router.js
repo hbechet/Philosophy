@@ -10,6 +10,7 @@ import { Footer } from '../components/Footer';
 import { useElements } from "../hooks/useElements";
 import Schools from '../views/Schools';
 import ModifiedElement from '../views/ModifiedElement';
+import ViewPhilo from '../views/ViewPhilo';
 
 function Router() {
   const { data: elements, updateElement } = useElements();
@@ -18,7 +19,8 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout><Home /></Layout>} />
-        <Route path="/philosophers" element={<Layout><Philosophers rows={elements} /></Layout>} />
+        <Route path="/philosophers" element={<Layout><Philosophers /></Layout>} />
+        <Route path="/viewphilo/:id" element={<Layout><ViewPhilo /></Layout>} />
         <Route path="/viewelement/:id" element={<Layout><ViewElement updateElement={updateElement} /></Layout>} />
         <Route path="/updateelement/:id" element={<Layout><UpdateElement updateElement={updateElement} /></Layout>} />
         <Route path="/schools" element={<Layout><Schools rows={elements} /></Layout>} />

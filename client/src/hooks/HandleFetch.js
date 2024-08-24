@@ -1,7 +1,7 @@
-async function HandleFetch() {
+async function HandleFetch(id) {
 
     try {
-        const res = await fetch('http://localhost:5000/api/endpoint/data', {
+        const res = await fetch(`http://localhost:5000/api/philos/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 // Table.jsx
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Action } from '../components/Action';
 
 const Philosophers = () => {
   const [philos, setPhilos] = useState([]);
@@ -10,8 +10,12 @@ const Philosophers = () => {
   useEffect(() => {
     fetch('http://localhost:5000/api/philos/all')
       .then((res) => res.json())
-      .then((res) => setPhilos(res.data));
-  }, []);
+      .then((res) => setPhilos(res.data))
+      .catch(err => {
+        setError(err);
+        console.log(error);
+      });
+  }, [error]);
 
   return (
     <div className="container philos">
@@ -25,7 +29,10 @@ const Philosophers = () => {
               <Card.Text>
                 {philo.ideas[0]}
               </Card.Text>
-              <Button variant="primary">View Detail</Button>
+              <div className='action-buttons'>
+                <Action text="View details" path={'/viewphilo/' + philo._id} delay={0} type="primary" collection="philos" />
+                <Action text="Modify" path={'/updateelement/' + philo._id} delay={0} type="secondary" collection="philos" />
+              </div>
             </Card.Body>
           </Card>
         )
