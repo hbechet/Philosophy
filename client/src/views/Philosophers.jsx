@@ -1,23 +1,35 @@
 // Table.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 const Philosophers = () => {
+  const [philos, setPhilos] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/philos/all')
+      .then((res) => res.json())
+      .then((res) => setPhilos(res.data));
+  }, []);
 
   return (
-    <div className="container">
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-      </Card>
+    <div className="container philos">
+      {philos.map((philo) => {
+        return (
+          <Card style={{ width: '20rem' }}>
+            <Card.Img variant="top" src={philo.photo} />
+            <Card.Body>
+              <Card.Title>{philo.name}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">{philo.schools[0]}</Card.Subtitle>
+              <Card.Text>
+                {philo.ideas[0]}
+              </Card.Text>
+              <Button variant="primary">View Detail</Button>
+            </Card.Body>
+          </Card>
+        )
+      })}
     </div>
   );
 };

@@ -68,6 +68,17 @@
     margin: 25px 0;
 }
 
+.philos {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    & img {
+        height: 400px;
+    }
+}
+
 .footer {
     padding: 1%;
     position: fixed;
