@@ -69,13 +69,23 @@
 }
 
 .philos {
-    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     gap: 50px;
 
     & img {
         height: 400px;
+    }
+}
+
+.content {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    & h4 {
+        color: wheat;
+        font-weight: 700;
+        text-shadow: 2px 2px black;
     }
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import HandleFetch from "./HandleFetch";
+import HandleFetch from "../components/HandleFetch";
 
 export const useElements = () => {
   const [data, setData] = useState([]);

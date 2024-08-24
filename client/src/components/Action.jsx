@@ -15,7 +15,6 @@ export const Action = ({ text, path, delay, type, collection }) => {
         }
     };
 
-
     useEffect(() => {
         if (type === 'primary') {
             setButtonClass('btn btn-primary');

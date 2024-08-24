@@ -1,7 +1,7 @@
-async function HandleFetch(id) {
+async function HandleFetch(id, collection) {
 
     try {
-        const res = await fetch(`http://localhost:5000/api/philos/${id}`, {
+        const res = await fetch(`http://localhost:5000/api/${collection}/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ async function HandleFetch(id) {
         console.error('Error fetching data:', error);
         return ('Error fetching data');  // Show error message in case of error
     }
-    //return response;
+
 };
 
 export default HandleFetch;

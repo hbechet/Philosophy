@@ -3,14 +3,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../views/Home';
 import NotFound from '../views/NotFound';
 import Philosophers from '../views/Philosophers';
-import ViewElement from '../views/ViewElement';
 import UpdateElement from '../views/UpdateElement';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { useElements } from "../hooks/useElements";
 import Schools from '../views/Schools';
 import ModifiedElement from '../views/ModifiedElement';
-import ViewPhilo from '../views/ViewPhilo';
+import View from '../views/View';
 
 function Router() {
   const { data: elements, updateElement } = useElements();
@@ -20,8 +19,7 @@ function Router() {
       <Routes>
         <Route path="/" element={<Layout><Home /></Layout>} />
         <Route path="/philosophers" element={<Layout><Philosophers /></Layout>} />
-        <Route path="/viewphilo/:id" element={<Layout><ViewPhilo /></Layout>} />
-        <Route path="/viewelement/:id" element={<Layout><ViewElement updateElement={updateElement} /></Layout>} />
+        <Route path="/view/:collection/:id" element={<Layout><View /></Layout>} />
         <Route path="/updateelement/:id" element={<Layout><UpdateElement updateElement={updateElement} /></Layout>} />
         <Route path="/schools" element={<Layout><Schools rows={elements} /></Layout>} />
         <Route path="/modifiedelement" element={<Layout><ModifiedElement /></Layout>} />

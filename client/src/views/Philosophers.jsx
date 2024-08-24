@@ -18,7 +18,7 @@ const Philosophers = () => {
   }, [error]);
 
   return (
-    <div className="container philos">
+    <div className="container philos content">
       {philos.map((philo) => {
         return (
           <Card style={{ width: '20rem' }}>
@@ -30,8 +30,8 @@ const Philosophers = () => {
                 {philo.ideas[0]}
               </Card.Text>
               <div className='action-buttons'>
-                <Action text="View details" path={'/viewphilo/' + philo._id} delay={0} type="primary" collection="philos" />
-                <Action text="Modify" path={'/updateelement/' + philo._id} delay={0} type="secondary" collection="philos" />
+                <Action text="View details" path={'/view/philos/' + philo._id} delay={0} type="primary" collection="philos" />
+                <Action text="Modify" path={'/updateelement/philos/' + philo._id} delay={0} type="secondary" collection="philos" />
               </div>
             </Card.Body>
           </Card>
