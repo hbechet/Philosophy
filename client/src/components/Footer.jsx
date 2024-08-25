@@ -4,7 +4,7 @@ import '../styles/styles.css';
 export const Footer = () => {
   return (
     <footer className="footer">
-      <div class="footer-div">
+      <div className="footer-div">
         <a href="https://www.linkedin.com/in/haritz-bechet-ibarra-171547239/" target="_blank" rel="noopener noreferrer">
           <img src="linkedin.png" alt="LinkedIn" />
         </a>

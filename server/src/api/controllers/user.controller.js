@@ -14,12 +14,12 @@ const addUser = async (req, res) => {
             newUser.password = bcrypt.hashSync(newUser.password, 10);
 
             const createdUser = await newUser.save();
-            res.status(200).json({ success: true, data: createdUser })
+            return res.status(200).json({ success: true, data: createdUser })
         } else {
-            res.status(201).json({ success: false, message: 'User already exists!' })
+            return res.status(201).json({ success: false, data: 'User already exists!' })
         }
     } catch (error) {
-        res.json(error);
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 
@@ -35,15 +35,15 @@ const login = async (req, res) => {
                 // Create JWT and return it
                 const data = { id: userByEmail[0]._id, email: userByEmail[0].email }
                 const token = generateToken(data);
-                res.status(200).json({ LoginSuccess: true, user: data, token: token })
+                return res.status(200).json({ success: true, data: data, username: userByEmail[0].name, token: token, role: userByEmail[0].role })
             } else {
-                res.status(201).json({ LoginSuccess: false, message: 'Passwords do not match :(' })
+                return res.status(201).json({ success: false, data: 'Passwords do not match :(' })
             }
         } else {
-            res.status(201).json({ LoginSuccess: false, message: 'Email does NOT exists!' })
+            return res.status(201).json({ success: false, data: 'Email does NOT exists!' })
         }
     } catch (error) {
-        res.json(error);
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 
@@ -51,32 +51,41 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
     try {
         const loggedUser = req.userData;
-        res.status(201).json({ AuthSuccess: true, message: 'You are authorized!', user: loggedUser.email, role: loggedUser.role })
+        return res.status(201).json({ success: true, message: 'You are authorized!', data: { name: loggedUser.name, email: loggedUser.email, role: loggedUser.role } })
     } catch (error) {
-        res.json(error);
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
+
+//Get all user info, only for Admins
+const getAllUsers = async (req, res) => {
+    try {
+        const allUsers = await User.find();
+        return res.status(200).json({ success: true, data: allUsers });
+    } catch (error) {
+        return res.status(400).json({ success: false, data: error.message });
+    }
+}
 
 //Delete user
 const deleteUser = async (req, res) => {
     try {
         //const loggedAdmin = req.adminData;
-        const { id } = req.query;
+        const { id } = req.params;
         if (id) {
             const deletedUser = await User.findByIdAndDelete(id)
             if (!deletedUser) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' })
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' })
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'User deleted successfully!', deletedEntry: deletedUser })
-                deleteFile(deletedUser.image);
+                return res.status(200).json({ success: true, message: 'User deleted successfully!', data: deletedUser })
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' })
+            return res.status(202).json({ success: false, data: 'You have to define an ID' })
         }
-        //res.status(201).json({ AuthSuccess: true, message: 'You are authorized to delete!', user: loggedAdmin.email, role: loggedAdmin.role })
+
     } catch (error) {
-        res.json(error);
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 
-module.exports = { addUser, login, getProfile, deleteUser };
+module.exports = { addUser, login, getProfile, deleteUser, getAllUsers };

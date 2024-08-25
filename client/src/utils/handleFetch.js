@@ -1,4 +1,4 @@
-async function HandleFetch(id, collection) {
+async function handleFetch(id, collection) {
 
     try {
         const res = await fetch(`http://localhost:5000/api/${collection}/${id}`, {
@@ -17,4 +17,4 @@ async function HandleFetch(id, collection) {
 
 };
 
-export default HandleFetch;
+export default handleFetch;
