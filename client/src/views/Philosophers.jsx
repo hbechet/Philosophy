@@ -15,7 +15,7 @@ const Philosophers = () => {
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/philos/all')
+    fetch('https://philo-server.onrender.com/api/philos/all')
       .then((res) => res.json())
       .then((res) => setPhilos(res.data))
       .catch(err => {

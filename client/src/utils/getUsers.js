@@ -1,7 +1,7 @@
 async function getUsers(token) {
 
     try {
-        const res = await fetch(`http://localhost:5000/api/users/all`, {
+        const res = await fetch(`https://philo-server.onrender.com/api/users/all`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ const UpdateElement = () => {
 
   const updateElement = (ev) => {
     ev.preventDefault();
-    fetch(`http://localhost:5000/api/${collection}/update/${id}`, {
+    fetch(`https://philo-server.onrender.com/api/${collection}/update/${id}`, {
       method: "PUT",
       body: JSON.stringify(updatedElement),
       headers: {

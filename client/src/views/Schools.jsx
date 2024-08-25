@@ -12,7 +12,7 @@ const Philosophers = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/schools/all')
+    fetch('https://philo-server.onrender.com/api/schools/all')
       .then((res) => res.json())
       .then((res) => setSchools(res.data))
       .catch(err => {

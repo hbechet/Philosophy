@@ -1,7 +1,7 @@
 async function handleAuth(token) {
 
     try {
-        const res = await fetch('http://localhost:5000/api/users/profile', {
+        const res = await fetch('https://philo-server.onrender.com/api/users/profile', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
