@@ -1,35 +1,22 @@
-import React, { useReducer } from 'react';
-import { initialState, AuthReducer } from './Reducer';
+import React, { createContext, useState } from 'react';
 
-const AuthStateContext = React.createContext();
-const AuthDispatchContext = React.createContext();
-
-export function useAuthState() {
-    const context = React.useContext(AuthStateContext);
-    if (context === undefined) {
-        throw new Error("useAuthState debe utilizarse dentro de un AuthProvider");
-    }
-
-    return context;
-}
-
-export function useAuthDispatch() {
-    const context = React.useContext(AuthDispatchContext);
-    if (context === undefined) {
-        throw new Error("useAuthDispatch debe utilizarse dentro de un AuthProvider");
-    }
-
-    return context;
-}
+// Create Context
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, dispatch] = useReducer(AuthReducer, initialState);
+    const [user, setUser] = useState('');
+
+    const login = (userData) => {
+        setUser(userData);
+    };
+
+    const logout = () => {
+        setUser(null);
+    };
 
     return (
-        <AuthStateContext.Provider value={user}>
-            <AuthDispatchContext.Provider value={dispatch}>
-                {children}
-            </AuthDispatchContext.Provider>
-        </AuthStateContext.Provider>
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
 };

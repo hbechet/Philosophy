@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Swal from 'sweetalert2'
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
     const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({});
+
+    const { login } = useContext(AuthContext);
 
     const handleLogin = async (ev) => {
         ev.preventDefault();
@@ -34,6 +37,7 @@ const Login = () => {
             }
 
             localStorage.setItem('token', info.token);
+            login(info.token);
 
             Swal.fire({
                 title: "Logged successfully!",
