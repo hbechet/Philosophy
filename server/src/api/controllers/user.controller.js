@@ -57,6 +57,16 @@ const getProfile = async (req, res) => {
     }
 };
 
+//Get all user info, only for Admins
+const getAllUsers = async (req, res) => {
+    try {
+        const allUsers = await User.find();
+        res.status(200).json({ success: true, data: allUsers });
+    } catch (error) {
+        res.status(400).json({ success: false, data: error });
+    }
+}
+
 //Delete user
 const deleteUser = async (req, res) => {
     try {
@@ -79,4 +89,4 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { addUser, login, getProfile, deleteUser };
+module.exports = { addUser, login, getProfile, deleteUser, getAllUsers };

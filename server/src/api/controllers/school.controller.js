@@ -5,7 +5,7 @@ const getAllSchools = async (req, res) => {
         const allSchools = await School.find();
         res.status(200).json({ success: true, data: allSchools });
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: error.message });
     }
 }
 
@@ -19,7 +19,7 @@ const getSchoolbyId = async (req, res) => {
             res.status(200).json({ success: true, data: filteredSchool });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: error.message });
     }
 }
 

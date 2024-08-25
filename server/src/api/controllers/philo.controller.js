@@ -6,7 +6,7 @@ const getAllPhilos = async (req, res) => {
         const allPhilos = await Philosopher.find();
         res.status(200).json({ success: true, data: allPhilos });
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: error.message });
     }
 };
 
@@ -20,7 +20,7 @@ const getPhilobyId = async (req, res) => {
             res.status(200).json({ success: true, data: filteredPhilo });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: error.message });
     }
 }
 
