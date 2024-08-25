@@ -9,7 +9,6 @@
 
 .header {
     background-color: wheat;
-    margin-bottom: 50px;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -23,7 +22,7 @@
 
 .logo {
     display: block;
-    height: 100px;
+    height: 85px;
 }
 
 .navbar {
@@ -32,30 +31,69 @@
     align-items: center;
 }
 
-.navbar-nav {
+.navbar ul {
     display: flex;
     list-style: none;
     justify-content: center;
     margin: 0;
 
     & li {
-        padding: 25px;
+        padding: 0 25px;
     }
 }
 
-.nav-link {
+.navbar ul a {
     text-decoration: none;
     color: black;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 17px;
 
     &:hover {
         color: white;
     }
 }
 
+.home {
+    padding-top: 75px;
+    height: 82vh;
+    color: white;
+    text-shadow: 1px 1px 10px black;
+    background-image: url('../../public/Greek-Philosophers.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .searchbar {
     margin: 25px 0;
+}
+
+.philos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    & img {
+        height: 400px;
+    }
+}
+
+.content {
+    margin-top: 50px;
+    margin-bottom: 100px;
+
+    & h4 {
+        color: wheat;
+        font-weight: 700;
+        text-shadow: 1px 1px 3px black;
+
+    }
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .footer {
@@ -66,23 +104,25 @@
     width: 100%;
     background-color: grey;
     color: white;
-    font-weight: bold;
 }
 
-.footer-icons {
+.footer-div {
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
 }
 
-.footer-icons a {
+.footer-div a {
     margin: 0 15px;
     text-decoration: none;
     color: #fff;
-    display: flex;
 }
 
-.footer-icons img {
+.footer-div p {
+    margin: 0;
+}
+
+.footer-div img {
     width: 30px;
     height: 30px;
     margin: auto;
