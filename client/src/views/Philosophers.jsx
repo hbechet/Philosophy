@@ -3,10 +3,15 @@ import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Action } from '../components/Action';
 import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
+import Swal from 'sweetalert2'
+import DeleteElement from '../components/DeleteElement';
+import { useNavigate } from 'react-router-dom';
 
 const Philosophers = () => {
   const [philos, setPhilos] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5000/api/philos/all')
@@ -17,6 +22,34 @@ const Philosophers = () => {
         console.log(error);
       });
   }, [error]);
+
+  const handleDelete = (ev) => {
+    const id = ev.target.id;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        DeleteElement(id, "philos");
+        Swal.fire({
+          title: "Deleted!",
+          text: "The element has been deleted.",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/philosophers');
+            window.location.reload(false);
+          }
+        })
+      }
+    });
+  }
 
   return (
     <div className="container content">
@@ -29,8 +62,8 @@ const Philosophers = () => {
               <Card.Body>
                 <Card.Title>{philo.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{philo.schools[0]}</Card.Subtitle>
-                <Card.Text>
-                  {philo.ideas[0]}
+                <Card.Text style={{ fontStyle: 'italic' }}>
+                  {`"${philo.ideas[0]}"`}
                 </Card.Text>
                 <Accordion defaultActiveKey="1">
                   <Accordion.Item eventKey="0">
@@ -39,7 +72,7 @@ const Philosophers = () => {
                       <div className='action-buttons'>
                         <Action text="View details" path={'/view/philos/' + philo._id} delay={0} type="primary" />
                         <Action text="Modify" path={'/update/philos/' + philo._id} delay={0} type="secondary" />
-                        <Action text="Delete" path={'/delete/philos/' + philo._id} delay={0} type="danger" />
+                        <Button className="btn btn-danger" id={philo._id} onClick={handleDelete} >Delete</Button>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>

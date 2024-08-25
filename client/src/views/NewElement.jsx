@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Swal from 'sweetalert2'
 
 const NewElement = () => {
   const { collection } = useParams();
@@ -11,7 +12,7 @@ const NewElement = () => {
 
   const [newElement, setElementData] = useState({});
   const [newElementID, setID] = useState('');
-  const [response, setResponse] = useState({});
+  //const [response, setResponse] = useState({});
   const [error, setError] = useState('');
 
   const createElement = (ev) => {
@@ -26,8 +27,8 @@ const NewElement = () => {
     })
       .then(res => res.json())
       .then((info) => {
-        setResponse(info.data)
-        console.log(info.data)
+        console.log(info.data._id);
+        setID(info.data._id);
       })
 
       .catch(err => {
@@ -36,9 +37,23 @@ const NewElement = () => {
       })
 
     if (error === '') {
-      console.log(response);
-      setID(response._id);
-      navigate(collection === 'philos' ? `/view/philos/${newElementID}` : `/view/schools/${newElementID}`);
+      console.log(newElementID);
+
+      Swal.fire({
+        title: "Element created successfully!",
+        text: "Do you want to double check it?",
+        icon: "success",
+        showDenyButton: true,
+        confirmButtonColor: "#3085d6",
+        denyButtonColor: "#d33",
+        confirmButtonText: "Yes, please."
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(collection === 'philos' ? `/view/philos/${newElementID}` : `/view/schools/${newElementID}`);
+        } else if (result.isDenied) {
+          navigate('/philosophers');
+        }
+      });
     }
   };
 
