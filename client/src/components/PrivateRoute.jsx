@@ -1,17 +1,46 @@
 // PrivateRoute.js
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import '../styles/styles.css';
 import { Navigate } from 'react-router-dom';
+import handleAuth from '../utils/handleAuth';
+import Spinner from 'react-bootstrap/Spinner';
+import { AuthContext } from '../context/AuthContext';
 
 function PrivateRoute({ children, role }) {
-    const token = localStorage.getItem('token');
+
+    const [userRole, setUserRole] = useState('');
+    const { token } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (token) {
+            var res = handleAuth(token);
+            res.then((info) => {
+                setUserRole(info.data.role);
+            })
+                .catch((error) => {
+                    console.error(`Could not get data: ${error}`);
+                })
+        }
+    }, [])
+
     if (!token) {
-        return <Navigate to="/" />;
+        return <Navigate to="/login" />;
     }
 
-    // Decode the token to check the role
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    if (decodedToken.role !== role) {
-        return <Navigate to="/" />;
+    setTimeout(() => {
+        if (userRole !== role && userRole !== 'admin') {
+            return <Navigate to="/login" />;
+        }
+    }, 2500);
+
+    if (!userRole) {
+        return (
+            <div className="container content">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+                <h1>Loading...</h1>
+            </div>)
     }
 
     return children;

@@ -6,13 +6,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({});
 
-    const { login } = useContext(AuthContext);
+    const { login, token } = useContext(AuthContext);
+
+    if (token) {
+        return <Navigate to="/profile" />;
+    }
 
     const handleLogin = async (ev) => {
         ev.preventDefault();
@@ -37,7 +42,7 @@ const Login = () => {
             }
 
             localStorage.setItem('token', info.token);
-            login(info.token);
+            login(info);
 
             Swal.fire({
                 title: "Logged successfully!",

@@ -13,24 +13,27 @@ import Login from '../views/Login';
 import UserProfile from '../views/UserProfile';
 import PrivateRoute from '../components/PrivateRoute';
 import UsersPage from '../views/Users';
+import { AuthProvider } from '../context/AuthContext';
 
 function Router() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout><Home /></Layout>} />
-        <Route path="/philosophers" element={<Layout><Philosophers /></Layout>} />
-        <Route path="/view/:collection/:id" element={<Layout><ViewElement /></Layout>} />
-        <Route path="/update/:collection/:id" element={<Layout><UpdateElement /></Layout>} />
-        <Route path="/new/:collection" element={<Layout><NewElement /></Layout>} />
-        <Route path="/schools" element={<Layout><Schools /></Layout>} />
-        <Route path="/login" element={<Layout><Login /></Layout>} />
-        <Route path="/profile" element={<PrivateRoute role="user"><Layout><UserProfile /></Layout></PrivateRoute>} />
-        <Route path="/users" element={<PrivateRoute role="admin"><Layout><UsersPage /></Layout></PrivateRoute>} />
-        <Route path="*" element={<Layout><NotFound /></Layout>} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout><Home /></Layout>} />
+          <Route path="/philosophers" element={<Layout><Philosophers /></Layout>} />
+          <Route path="/view/:collection/:id" element={<Layout><ViewElement /></Layout>} />
+          <Route path="/update/:collection/:id" element={<Layout><UpdateElement /></Layout>} />
+          <Route path="/new/:collection" element={<Layout><NewElement /></Layout>} />
+          <Route path="/schools" element={<PrivateRoute role="user"><Layout><Schools /></Layout></PrivateRoute>} />
+          <Route path="/login" element={<Layout><Login /></Layout>} />
+          <Route path="/profile" element={<PrivateRoute role="user"><Layout><UserProfile /></Layout></PrivateRoute>} />
+          <Route path="/users" element={<PrivateRoute role="admin"><Layout><UsersPage /></Layout></PrivateRoute>} />
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

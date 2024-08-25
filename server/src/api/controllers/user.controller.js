@@ -35,7 +35,7 @@ const login = async (req, res) => {
                 // Create JWT and return it
                 const data = { id: userByEmail[0]._id, email: userByEmail[0].email }
                 const token = generateToken(data);
-                return res.status(200).json({ success: true, data: data, token: token })
+                return res.status(200).json({ success: true, data: data, username: userByEmail[0].name, token: token })
             } else {
                 return res.status(201).json({ success: false, data: 'Passwords do not match :(' })
             }
@@ -51,7 +51,7 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
     try {
         const loggedUser = req.userData;
-        return res.status(201).json({ success: true, message: 'You are authorized!', data: { email: loggedUser.email, role: loggedUser.role } })
+        return res.status(201).json({ success: true, message: 'You are authorized!', data: { name: loggedUser.name, email: loggedUser.email, role: loggedUser.role } })
     } catch (error) {
         return res.status(400).json({ success: false, data: error.message });
     }
