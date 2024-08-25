@@ -14,7 +14,7 @@ const NewElement = () => {
 
   const createElement = (ev) => {
     ev.preventDefault();
-    fetch(`http://localhost:5000/api/${collection}/new`, {
+    fetch(`https://philo-server.onrender.com/api/${collection}/new`, {
       method: "POST",
       body: JSON.stringify(newElement),
       headers: {

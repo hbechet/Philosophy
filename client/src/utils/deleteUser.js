@@ -1,7 +1,7 @@
 async function deleteUser(id, token) {
 
     try {
-        const res = await fetch(`http://localhost:5000/api/users/delete/${id}`, {
+        const res = await fetch(`https://philo-server.onrender.com/api/users/delete/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

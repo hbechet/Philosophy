@@ -1,7 +1,7 @@
 async function deleteElement(id, collection) {
 
     try {
-        const res = await fetch(`http://localhost:5000/api/${collection}/delete/${id}`, {
+        const res = await fetch(`https://philo-server.onrender.com/api/${collection}/delete/${id}`, {
             method: 'DELETE',
         });
 
