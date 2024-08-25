@@ -1,59 +1,82 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useElements } from '../hooks/useElements';
+import HandleFetch from '../components/HandleFetch';
+import Spinner from 'react-bootstrap/Spinner';
 
 const ViewElement = () => {
-  const { id } = useParams();
-  const { data: elements } = useElements();
+  const { id, collection } = useParams();
 
-  const [rowData, setRowData] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const foundElement = elements.find(element => element.id === id);
-    setRowData(foundElement);
-  }, [id, elements]);
+    setTimeout(() => {
+      var res = HandleFetch(id, collection);
+      res.then((info) => {
+        setData(info.data);
+      })
+        .catch((error) => {
+          console.error(`Could not get data: ${error}`);
+        })
+    }, 2500);
+  }, [collection, id]);
 
-  if (!rowData) {
-    return <h1>Searching for element...</h1>;
+  if (!data) {
+    return (
+      <div className="container content">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <h1>Searching for element...</h1>
+      </div>)
   }
 
-  const commonDetails = (
-    <div>
-      <h5 className="card-title">Information</h5>
-      <p className="card-text">ID: {rowData.id}</p>
-      <p className="card-text">Name: {rowData.name}</p>
-    </div>
-  );
-
-  const specificDetails = id < 100 ? (
-    <div>
-      {commonDetails}
-      <p className="card-text">Stock: {rowData.quantity}</p>
-      <p className="card-text">Provider: {rowData.provider}</p>
-    </div>
-  ) : (
-    <div>
-      {commonDetails}
-      <p>Email: {rowData.email}</p>
-      <p>Telephone: {rowData.phone}</p>
-    </div>
-  );
-
-  return (
-
-    <div className="container" style={{ maxWidth: '540px' }}>
+  const returnedData = (collection === 'philos') ? (
+    <div className="container content">
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={"../" + rowData.image} className="img-fluid rounded-start" alt="Element" />
+          <img src={data.photo} className="img-fluid rounded" alt="Element" />
         </div>
         <div className="col-md-8">
-          <div className="card-body">
-            {specificDetails}
+          <div className="card-body ms-5">
+            <h1>{data.name}</h1>
+            <br></br>
+            <p><b>Nationality:</b> {data.nationality}</p>
+            <p><b>Born date:</b> {new Date(data.born_date).toLocaleDateString()}</p>
+            <p><b>Death date:</b> {new Date(data.death_date).toLocaleDateString()}</p>
+            <br></br>
+            <h4>Main quotes / ideas</h4>
+            <ul>
+              {data.ideas.map((idea) => {
+                return <li>{idea}</li>
+              })}
+            </ul>
+            <br></br>
+            <h4>Schools of Thought</h4>
+            <ul>
+              {data.schools.map((school) => {
+                return <li>{school}</li>
+              })}
+            </ul>
           </div>
         </div>
       </div>
     </div>
+  ) : (
+    <div className="container content">
+      <h1>{data.name}</h1>
+      <p>{data.description}</p>
+      <br></br>
+      <h4>Renowned philosophers:</h4>
+      <ul>
+        {data.philosophers.map((philo) => {
+          return <li>{philo}</li>
+        })}
+      </ul>
+    </div>
   );
+
+  return returnedData;
+
 };
 
 export default ViewElement;

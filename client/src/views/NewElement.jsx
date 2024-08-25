@@ -11,8 +11,6 @@ const NewElement = () => {
   const navigate = useNavigate();
 
   const [newElement, setElementData] = useState({});
-  const [newElementID, setID] = useState('');
-  //const [response, setResponse] = useState({});
   const [error, setError] = useState('');
 
   const createElement = (ev) => {
@@ -22,39 +20,34 @@ const NewElement = () => {
       body: JSON.stringify(newElement),
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${token}`, PARA ENVIAR UN TOKEN HACIA EL BACK
       }
     })
       .then(res => res.json())
       .then((info) => {
-        console.log(info.data._id);
-        setID(info.data._id);
+        var id = info.data._id;
+
+        Swal.fire({
+          title: "Element created successfully!",
+          text: "Do you want to double check it?",
+          icon: "success",
+          showDenyButton: true,
+          confirmButtonColor: "#3085d6",
+          denyButtonColor: "#d33",
+          confirmButtonText: "Yes, please."
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(collection === 'philos' ? `/view/philos/${id}` : `/view/schools/${id}`);
+          } else if (result.isDenied) {
+            navigate(collection === 'philos' ? '/philosophers' : '/schools');
+          }
+        });
+
       })
 
       .catch(err => {
         setError(err);
         console.log('There was an error', err);
       })
-
-    if (error === '') {
-      console.log(newElementID);
-
-      Swal.fire({
-        title: "Element created successfully!",
-        text: "Do you want to double check it?",
-        icon: "success",
-        showDenyButton: true,
-        confirmButtonColor: "#3085d6",
-        denyButtonColor: "#d33",
-        confirmButtonText: "Yes, please."
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate(collection === 'philos' ? `/view/philos/${newElementID}` : `/view/schools/${newElementID}`);
-        } else if (result.isDenied) {
-          navigate('/philosophers');
-        }
-      });
-    }
   };
 
   const handleChange = (e) => {
