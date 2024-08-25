@@ -11,6 +11,8 @@ import UpdateElement from '../views/UpdateElement';
 import NewElement from '../views/NewElement';
 import Login from '../views/Login';
 import UserProfile from '../views/UserProfile';
+import PrivateRoute from '../components/PrivateRoute';
+import UsersPage from '../views/Users';
 
 function Router() {
 
@@ -24,7 +26,8 @@ function Router() {
         <Route path="/new/:collection" element={<Layout><NewElement /></Layout>} />
         <Route path="/schools" element={<Layout><Schools /></Layout>} />
         <Route path="/login" element={<Layout><Login /></Layout>} />
-        <Route path="/profile" element={<Layout><UserProfile /></Layout>} />
+        <Route path="/profile" element={<PrivateRoute role="user"><Layout><UserProfile /></Layout></PrivateRoute>} />
+        <Route path="/users" element={<PrivateRoute role="admin"><Layout><UsersPage /></Layout></PrivateRoute>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </BrowserRouter>

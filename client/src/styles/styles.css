@@ -64,6 +64,10 @@
     background-repeat: no-repeat;
 }
 
+.login {
+    max-width: 500px;
+}
+
 .searchbar {
     margin: 25px 0;
 }
