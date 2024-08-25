@@ -21,7 +21,7 @@ function PrivateRoute({ children, role }) {
                     console.error(`Could not get data: ${error}`);
                 })
         }
-    }, [])
+    }, [token])
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -31,7 +31,7 @@ function PrivateRoute({ children, role }) {
         if (userRole !== role && userRole !== 'admin') {
             return <Navigate to="/login" />;
         }
-    }, 2500);
+    }, 250);
 
     if (!userRole) {
         return (
@@ -42,7 +42,6 @@ function PrivateRoute({ children, role }) {
                 <h1>Loading...</h1>
             </div>)
     }
-
     return children;
 }
 

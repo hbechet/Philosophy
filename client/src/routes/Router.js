@@ -26,9 +26,9 @@ function Router() {
           <Route path="/view/:collection/:id" element={<Layout><ViewElement /></Layout>} />
           <Route path="/update/:collection/:id" element={<Layout><UpdateElement /></Layout>} />
           <Route path="/new/:collection" element={<Layout><NewElement /></Layout>} />
-          <Route path="/schools" element={<PrivateRoute role="user"><Layout><Schools /></Layout></PrivateRoute>} />
+          <Route path="/schools" element={<PrivateRoute role="client"><Layout><Schools /></Layout></PrivateRoute>} />
           <Route path="/login" element={<Layout><Login /></Layout>} />
-          <Route path="/profile" element={<PrivateRoute role="user"><Layout><UserProfile /></Layout></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute role="client"><Layout><UserProfile /></Layout></PrivateRoute>} />
           <Route path="/users" element={<PrivateRoute role="admin"><Layout><UsersPage /></Layout></PrivateRoute>} />
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>

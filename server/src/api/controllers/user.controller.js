@@ -35,7 +35,7 @@ const login = async (req, res) => {
                 // Create JWT and return it
                 const data = { id: userByEmail[0]._id, email: userByEmail[0].email }
                 const token = generateToken(data);
-                return res.status(200).json({ success: true, data: data, username: userByEmail[0].name, token: token })
+                return res.status(200).json({ success: true, data: data, username: userByEmail[0].name, token: token, role: userByEmail[0].role })
             } else {
                 return res.status(201).json({ success: false, data: 'Passwords do not match :(' })
             }
@@ -71,7 +71,7 @@ const getAllUsers = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         //const loggedAdmin = req.adminData;
-        const { id } = req.query;
+        const { id } = req.params;
         if (id) {
             const deletedUser = await User.findByIdAndDelete(id)
             if (!deletedUser) {

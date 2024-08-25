@@ -3,8 +3,9 @@ import Card from 'react-bootstrap/Card';
 import { Action } from '../components/Action';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import deleteElement from '../utils/deleteElement';
+import { useNavigate } from 'react-router-dom';
 
 const Philosophers = () => {
   const [schools, setSchools] = useState([]);
@@ -19,6 +20,8 @@ const Philosophers = () => {
         console.log(error);
       });
   }, [error]);
+
+  const navigate = useNavigate();
 
   const handleDelete = (ev) => {
     const id = ev.target.id;
@@ -40,7 +43,7 @@ const Philosophers = () => {
           confirmButtonColor: "#3085d6",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.reload(false);
+            navigate('/profile');
           }
         })
       }

@@ -11,9 +11,9 @@ routeUsers.post('/login', login);
 routeUsers.get('/profile', [isAuth], getProfile);
 
 //view all users
-routeUsers.get('/all', getAllUsers);
+routeUsers.get('/all', [isAdmin], getAllUsers);
 
 //delete user
-routeUsers.delete('/delete', [isAdmin], deleteUser);
+routeUsers.delete('/delete/:id', [isAdmin], deleteUser);
 
 module.exports = routeUsers;
