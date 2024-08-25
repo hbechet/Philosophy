@@ -9,50 +9,58 @@ import Swal from 'sweetalert2'
 const Login = () => {
     const navigate = useNavigate();
 
-    const [loginData, setLoginData] = useState('');
+    const [loginData, setLoginData] = useState({});
 
-    const login = (ev) => {
+    const handleLogin = async (ev) => {
         ev.preventDefault();
-        fetch(`http://localhost:5000/api/users/login`, {
-            method: "POST",
-            body: JSON.stringify(loginData),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
-            .then(response => response.json())
-            .then((info) => {
-                if (!info.success) {
-                    throw new Error(info.data);
+
+        try {
+            const res = await fetch('http://localhost:5000/api/users/login', {
+                method: 'POST',
+                body: JSON.stringify(loginData),
+                headers: {
+                    "Content-Type": "application/json",
                 }
-
-                Swal.fire({
-                    title: "Logged successfully!",
-                    text: "Do you want to check your profile?",
-                    icon: "success",
-                    showDenyButton: true,
-                    confirmButtonColor: "#3085d6",
-                    denyButtonColor: "#d33",
-                    confirmButtonText: "Yes, please."
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate('/profile');
-                    } else if (result.isDenied) {
-                        navigate('/');
-                    }
-                });
-
             })
 
-            .catch(err => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong!",
-                    footer: err.hasOwnProperty("message") ? err.message : err
-                });
-                console.log('There was an error', err);
-            })
+            if (!res.ok) {
+                throw new Error('Login failed');
+            }
+
+            const data = await res.json();
+            console.log(data);
+
+            if (!data.success) {
+                throw new Error(data.data);
+            }
+
+            localStorage.setItem('token', data.token);
+
+            Swal.fire({
+                title: "Logged successfully!",
+                text: "Do you want to check your profile?",
+                icon: "success",
+                showDenyButton: true,
+                confirmButtonColor: "#3085d6",
+                denyButtonColor: "#d33",
+                confirmButtonText: "Yes, please."
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/profile');
+                } else if (result.isDenied) {
+                    navigate('/');
+                }
+            });
+
+        } catch (err) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                footer: err.hasOwnProperty("message") ? err.message : err
+            });
+            console.log('There was an error', err);
+        }
     };
 
     const handleChange = (e) => {
@@ -61,10 +69,10 @@ const Login = () => {
         setLoginData({ ...loginData, [key]: value })
     }
 
-    const specificForm = (
-        <div className="content login">
+    return (
+        <div className="container content login">
             <h1 className="mb-5">Login Page</h1>
-            <Form method="get" onSubmit={login} onChange={handleChange}>
+            <Form method="get" onSubmit={handleLogin} onChange={handleChange}>
                 <Row className="mb-3">
                     <Form.Group as={Col} className="mb-3" >
                         <Form.Label>Email</Form.Label>
@@ -81,12 +89,6 @@ const Login = () => {
             </Form>
         </div>
     );
-
-    return (
-        <div className="container">
-            {specificForm}
-        </div>
-    )
 };
 
 export default Login;
