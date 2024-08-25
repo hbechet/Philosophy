@@ -34,7 +34,7 @@ const ViewElement = () => {
     <div className="container content">
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={data.photo} className="img-fluid rounded" alt="Element" />
+          <img src={data.photo} className="rounded" alt="Element" />
         </div>
         <div className="col-md-8">
           <div className="card-body ms-5">

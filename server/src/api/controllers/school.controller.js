@@ -45,15 +45,15 @@ const deleteSchool = async (req, res) => {
         if (id) {
             const deletedSchool = await School.findByIdAndDelete(id);
             if (!deletedSchool) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
+                return res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'School of Thought deleted successfully!', deletedEntry: deletedSchool });
+                return res.status(200).json({ DeleteSuccess: true, message: 'School of Thought deleted successfully!', data: deletedSchool });
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
+            return res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        return res.status(400).json({ success: false, data: error });
     }
 };
 
@@ -66,7 +66,7 @@ const updateSchool = async (req, res) => {
             if (!updatedSchool) {
                 res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'School of Thought updated successfully!', updatedEntry: updatedSchool });
+                res.status(200).json({ DeleteSuccess: true, message: 'School of Thought updated successfully!', data: updatedSchool });
             }
         } else {
             res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });

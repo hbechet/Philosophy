@@ -5,12 +5,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
 import DeleteElement from '../components/DeleteElement';
-import { useNavigate } from 'react-router-dom';
 
 const Philosophers = () => {
   const [schools, setSchools] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5000/api/schools/all')
@@ -42,7 +40,6 @@ const Philosophers = () => {
           confirmButtonColor: "#3085d6",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate('/schools');
             window.location.reload(false);
           }
         })
@@ -54,9 +51,9 @@ const Philosophers = () => {
     <div className="container content">
       <Action className="content" text="CREATE NEW ENTRY" path={'/new/schools'} delay={0} type="success" />
       <div className="philos content">
-        {schools.map((school) => {
+        {schools.map((school, index) => {
           return (
-            <Card style={{ width: '20rem' }}>
+            <Card id={index} style={{ width: '20rem' }}>
               <Card.Body>
                 <Card.Title>{school.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{school.description.substring(0, 150) + "..."}</Card.Subtitle>

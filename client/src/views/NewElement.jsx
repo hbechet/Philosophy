@@ -28,7 +28,7 @@ const NewElement = () => {
 
         Swal.fire({
           title: "Element created successfully!",
-          text: "Do you want to double check it?",
+          text: "Do you want to see the result?",
           icon: "success",
           showDenyButton: true,
           confirmButtonColor: "#3085d6",

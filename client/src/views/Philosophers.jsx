@@ -5,12 +5,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
 import DeleteElement from '../components/DeleteElement';
-import { useNavigate } from 'react-router-dom';
 
 const Philosophers = () => {
   const [philos, setPhilos] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5000/api/philos/all')
@@ -42,7 +40,6 @@ const Philosophers = () => {
           confirmButtonColor: "#3085d6",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate('/philosophers');
             window.location.reload(false);
           }
         })
@@ -54,9 +51,9 @@ const Philosophers = () => {
     <div className="container content">
       <Action className="content" text="CREATE NEW ENTRY" path={'/new/philos'} delay={0} type="success" />
       <div className="philos content">
-        {philos.map((philo) => {
+        {philos.map((philo, key) => {
           return (
-            <Card style={{ width: '20rem' }}>
+            <Card key={key} style={{ width: '20rem' }}>
               <Card.Img variant="top" src={philo.photo} />
               <Card.Body>
                 <Card.Title>{philo.name}</Card.Title>

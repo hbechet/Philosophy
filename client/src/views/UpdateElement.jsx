@@ -1,34 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Swal from 'sweetalert2'
+import HandleFetch from '../components/HandleFetch';
 
 const UpdateElement = () => {
-  const { collection } = useParams();
+  const { id, collection } = useParams();
   const navigate = useNavigate();
 
-  const [newElement, setElementData] = useState({});
-  const [error, setError] = useState('');
+  const [updatedElement, setElementData] = useState({});
+  const [error, setError] = useState({});
 
-  const createElement = (ev) => {
+  useEffect(() => {
+    const data = HandleFetch(id, collection);
+    data.then((info) => {
+      setElementData(info.data);
+      delete updatedElement._v; // deleting version for error control
+    })
+      .catch((error) => {
+        console.error(`Could not get data: ${error}`);
+      })
+  }, [id, collection, updatedElement._v]);
+
+  const updateElement = (ev) => {
     ev.preventDefault();
-    fetch(`http://localhost:5000/api/${collection}/new`, {
-      method: "POST",
-      body: JSON.stringify(newElement),
+    fetch(`http://localhost:5000/api/${collection}/update/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedElement),
       headers: {
         "Content-Type": "application/json",
       }
     })
       .then(res => res.json())
       .then((info) => {
-        var id = info.data._id;
+        var updatedID = info.data._id;
 
         Swal.fire({
-          title: "Element created successfully!",
-          text: "Do you want to double check it?",
+          title: "Element updated successfully!",
+          text: "Do you want to see the result?",
           icon: "success",
           showDenyButton: true,
           confirmButtonColor: "#3085d6",
@@ -36,7 +48,7 @@ const UpdateElement = () => {
           confirmButtonText: "Yes, please."
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate(collection === 'philos' ? `/view/philos/${id}` : `/view/schools/${id}`);
+            navigate(collection === 'philos' ? `/view/philos/${updatedID}` : `/view/schools/${updatedID}`);
           } else if (result.isDenied) {
             navigate(collection === 'philos' ? '/philosophers' : '/schools');
           }
@@ -46,69 +58,71 @@ const UpdateElement = () => {
 
       .catch(err => {
         setError(err);
-        console.log('There was an error', err);
+        console.log('There was an error', error);
       })
   };
 
   const handleChange = (e) => {
     const key = e.target.id;
     const value = e.target.value;
-    setElementData({ ...newElement, [key]: value })
+    setElementData({ ...updatedElement, [key]: value })
   }
 
   const specificForm = (collection === 'philos') ? (
     <div className="content">
-      <h1 className="mb-5">Create a new Philosopher</h1>
-      <Form method="get" onSubmit={createElement} onChange={handleChange}>
+      <h1 className="mb-5">Updating Philosopher: {updatedElement.name}</h1>
+      <Form method="get" onSubmit={updateElement} onChange={handleChange}>
         <Row className="mb-3">
-          <Form.Group as={Col} className="mb-3" controlId="name">
+          <Form.Group as={Col} className="mb-3" >
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" value={newElement.name} required />
+            <Form.Control id="name" type="text" value={updatedElement.name} required />
           </Form.Group>
-          <Form.Group as={Col} className="mb-3" controlId="nationality">
+          <Form.Group as={Col} className="mb-3" >
             <Form.Label>Nationality</Form.Label>
-            <Form.Control type="text" value={newElement.nationality} required />
+            <Form.Control id="nationality" type="text" value={updatedElement.nationality} required />
           </Form.Group>
         </Row>
         <Row className="mb-3">
-          <Form.Group as={Col} className="mb-3" controlId="born_date">
+          <Form.Group as={Col} className="mb-3" >
             <Form.Label>Birth date</Form.Label>
-            <Form.Control type="text" placeholder="Format: 'YYYY-mm-dd'" value={newElement.born_date} required />
+            <Form.Control id="born_date" type="text" placeholder="Format: 'YYYY-mm-dd'" value={updatedElement.born_date} required />
             <Form.Text className="text-muted">
               For BC dates: "450 BC"
             </Form.Text>
           </Form.Group>
-          <Form.Group as={Col} className="mb-3" controlId="death_date">
+          <Form.Group as={Col} className="mb-3" >
             <Form.Label>Death date</Form.Label>
-            <Form.Control type="text" value={newElement.death_date} />
+            <Form.Control id="death_date" type="text" value={updatedElement.death_date} />
             <Form.Text className="text-muted">
               Same Format as Birth date
             </Form.Text>
           </Form.Group>
         </Row>
-        <Form.Group className="mb-3" controlId="photo">
-          <Form.Label>Photo</Form.Label>
-          <Form.Control type="file" value={newElement.photo} />
-        </Form.Group>
+        {/* <Form.Group className="mb-3" controlId="ideas">
+          <Form.Label>Main ideas / quotes</Form.Label>
+          {updatedElement.ideas.map((idea, index) => {
+            return <Form.Control type="text" id={index} value={idea} />
+          })}
+        </Form.Group> */}
         <Button variant="primary" type="submit">
-          Create new
+          Update element
         </Button>
       </Form>
     </div>
   ) : (
     <div className="content">
-      <h1 className="mb-5">Create a new School of Thought</h1>
-      <Form method="get" onSubmit={createElement} onChange={handleChange}>
-        <Form.Group as={Col} className="mb-3" controlId="name">
+      <h1 className="mb-5">Updating School: {updatedElement.name}</h1>
+      <Form method="get" onSubmit={updateElement} onChange={handleChange}>
+        <Form.Group as={Col} className="mb-3" >
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={newElement.name} required />
+          <Form.Control id="name" type="text" value={updatedElement.name} required />
         </Form.Group>
-        <Form.Group as={Col} className="mb-3" controlId="description">
+        <Form.Group as={Col} className="mb-3" >
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} />
+          <Form.Control id="description" as="textarea" rows={3} value={updatedElement.description} />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Create new
+          Update element
         </Button>
       </Form>
     </div>
@@ -117,7 +131,6 @@ const UpdateElement = () => {
   return (
     <div className="container">
       {specificForm}
-      <h2 className="mt-5">{error}</h2>
     </div>
   )
 };
