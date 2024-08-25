@@ -9,6 +9,8 @@ import Schools from '../views/Schools';
 import ViewElement from '../views/ViewElement';
 import UpdateElement from '../views/UpdateElement';
 import NewElement from '../views/NewElement';
+import Login from '../views/Login';
+import UserProfile from '../views/UserProfile';
 
 function Router() {
 
@@ -21,6 +23,8 @@ function Router() {
         <Route path="/update/:collection/:id" element={<Layout><UpdateElement /></Layout>} />
         <Route path="/new/:collection" element={<Layout><NewElement /></Layout>} />
         <Route path="/schools" element={<Layout><Schools /></Layout>} />
+        <Route path="/login" element={<Layout><Login /></Layout>} />
+        <Route path="/profile" element={<Layout><UserProfile /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </BrowserRouter>

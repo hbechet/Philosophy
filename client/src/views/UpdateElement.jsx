@@ -12,7 +12,6 @@ const UpdateElement = () => {
   const navigate = useNavigate();
 
   const [updatedElement, setElementData] = useState({});
-  const [error, setError] = useState({});
 
   useEffect(() => {
     const data = HandleFetch(id, collection);
@@ -34,15 +33,12 @@ const UpdateElement = () => {
         "Content-Type": "application/json",
       }
     })
-      .then(response => {
-        if (!response.success) {
-          console.log('success is false');
-          throw new Error(response.status);
-        }
-        return response.json();
-      })
-
+      .then(response => response.json())
       .then((info) => {
+        if (!info.success) {
+          console.log(info.data);
+          throw new Error(info.data);
+        }
         var updatedID = info.data._id;
         console.log('Why?');
         Swal.fire({
@@ -63,8 +59,13 @@ const UpdateElement = () => {
       })
 
       .catch(err => {
-        setError(err);
-        console.log('There was an error', error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: err.hasOwnProperty("message") ? err.message : err
+        });
+        console.log('There was an error', err);
       })
   };
 

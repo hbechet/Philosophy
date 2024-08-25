@@ -49,13 +49,13 @@ const deletePhilosopher = async (req, res) => {
         if (id) {
             const deletedPhilo = await Philosopher.findByIdAndDelete(id);
             if (!deletedPhilo) {
-                return res.status(202).json({ DeleteSuccess: false, data: 'That ID does NOT exist.' });
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
             } else {
                 deleteFile(deletedPhilo.photo);
-                return res.status(200).json({ DeleteSuccess: true, message: 'Philosopher deleted successfully!', data: deletedPhilo });
+                return res.status(200).json({ success: true, message: 'Philosopher deleted successfully!', data: deletedPhilo });
             }
         } else {
-            return res.status(202).json({ DeleteSuccess: false, data: 'You have to define an ID' });
+            return res.status(202).json({ success: false, data: 'You have to define an ID' });
         }
     } catch (error) {
         return res.status(400).json({ success: false, data: error.message });
@@ -69,12 +69,12 @@ const updatePhilosopher = async (req, res) => {
         if (id) {
             const updatedPhilo = await Philosopher.findByIdAndUpdate(id, updateBody, { new: true });
             if (!updatedPhilo) {
-                return res.status(202).json({ DeleteSuccess: false, data: 'That ID does NOT exist.' });
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
             } else {
-                return res.status(200).json({ DeleteSuccess: true, message: 'Philosopher updated successfully!', data: updatedPhilo });
+                return res.status(200).json({ success: true, message: 'Philosopher updated successfully!', data: updatedPhilo });
             }
         } else {
-            return res.status(202).json({ DeleteSuccess: false, data: 'You have to define an ID' });
+            return res.status(202).json({ success: false, data: 'You have to define an ID' });
         }
     } catch (error) {
         return res.status(400).json({ success: false, data: error.message });

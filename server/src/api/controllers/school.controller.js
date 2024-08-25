@@ -45,12 +45,12 @@ const deleteSchool = async (req, res) => {
         if (id) {
             const deletedSchool = await School.findByIdAndDelete(id);
             if (!deletedSchool) {
-                return res.status(202).json({ DeleteSuccess: false, data: 'That ID does NOT exist.' });
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
             } else {
-                return res.status(200).json({ DeleteSuccess: true, message: 'School of Thought deleted successfully!', data: deletedSchool });
+                return res.status(200).json({ success: true, message: 'School of Thought deleted successfully!', data: deletedSchool });
             }
         } else {
-            return res.status(202).json({ DeleteSuccess: false, data: 'You have to define an ID' });
+            return res.status(202).json({ success: false, data: 'You have to define an ID' });
         }
     } catch (error) {
         return res.status(400).json({ success: false, data: error.message });
@@ -64,12 +64,12 @@ const updateSchool = async (req, res) => {
         if (id) {
             const updatedSchool = await School.findByIdAndUpdate(id, updateBody, { new: true });
             if (!updatedSchool) {
-                return res.status(202).json({ DeleteSuccess: false, data: 'That ID does NOT exist.' });
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
             } else {
-                return res.status(200).json({ DeleteSuccess: true, message: 'School of Thought updated successfully!', data: updatedSchool });
+                return res.status(200).json({ success: true, message: 'School of Thought updated successfully!', data: updatedSchool });
             }
         } else {
-            return res.status(202).json({ DeleteSuccess: false, data: 'You have to define an ID' });
+            return res.status(202).json({ success: false, data: 'You have to define an ID' });
         }
     } catch (error) {
         return res.status(400).json({ success: false, data: error.message });
