@@ -1,7 +1,8 @@
-# Philosophy
+# Philosophy WebApp
 
 ## Backend API Server
-https://philo-server.onrender.com/api
+Sample URL:
+https://philo-server.onrender.com/api/philos/all
 
 ### Users credentials for test purposes
 Admin
