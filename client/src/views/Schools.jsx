@@ -59,9 +59,11 @@ const Philosophers = () => {
             <Card style={{ width: '20rem' }}>
               <Card.Body>
                 <Card.Title>{school.name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{school.description}</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">{school.description.substring(0, 150) + "..."}</Card.Subtitle>
                 <Card.Text>
-                  {school.philosophers[0]}
+                  <br></br>
+                  <span>Most famous Philosopher: </span>
+                  <p><i>{school.philosophers[0]}</i></p>
                 </Card.Text>
                 <Accordion defaultActiveKey="1">
                   <Accordion.Item eventKey="0">
