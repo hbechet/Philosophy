@@ -34,7 +34,7 @@ const ViewElement = () => {
     <div className="container content">
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={data.photo} className="rounded" alt="Element" />
+          <img src={data.photo} className="rounded" alt="Element" style={{ maxHeight: '500px' }} />
         </div>
         <div className="col-md-8">
           <div className="card-body ms-5">
@@ -46,15 +46,15 @@ const ViewElement = () => {
             <br></br>
             <h4>Main quotes / ideas</h4>
             <ul>
-              {data.ideas.map((idea) => {
-                return <li>{idea}</li>
+              {data.ideas.map((idea, key) => {
+                return <li key={key}>{idea}</li>
               })}
             </ul>
             <br></br>
             <h4>Schools of Thought</h4>
             <ul>
-              {data.schools.map((school) => {
-                return <li>{school}</li>
+              {data.schools.map((school, key) => {
+                return <li key={key}>{school}</li>
               })}
             </ul>
           </div>
@@ -68,8 +68,8 @@ const ViewElement = () => {
       <br></br>
       <h4>Renowned philosophers:</h4>
       <ul>
-        {data.philosophers.map((philo) => {
-          return <li>{philo}</li>
+        {data.philosophers.map((philo, key) => {
+          return <li key={key}>{philo}</li>
         })}
       </ul>
     </div>

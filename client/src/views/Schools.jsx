@@ -53,14 +53,15 @@ const Philosophers = () => {
       <div className="philos content">
         {schools.map((school, index) => {
           return (
-            <Card id={index} style={{ width: '20rem' }}>
+            <Card key={index} style={{ width: '20rem' }}>
               <Card.Body>
                 <Card.Title>{school.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{school.description.substring(0, 150) + "..."}</Card.Subtitle>
                 <Card.Text>
                   <br></br>
                   <span>Most famous Philosopher: </span>
-                  <p><i>{school.philosophers[0]}</i></p>
+                  <br></br>
+                  <i>{school.philosophers[0]}</i>
                 </Card.Text>
                 <Accordion defaultActiveKey="1">
                   <Accordion.Item eventKey="0">

@@ -10,8 +10,7 @@ const NewElement = () => {
   const { collection } = useParams();
   const navigate = useNavigate();
 
-  const [newElement, setElementData] = useState({});
-  const [error, setError] = useState('');
+  const [newElement, setElementData] = useState('');
 
   const createElement = (ev) => {
     ev.preventDefault();
@@ -22,8 +21,11 @@ const NewElement = () => {
         "Content-Type": "application/json",
       }
     })
-      .then(res => res.json())
+      .then(response => response.json())
       .then((info) => {
+        if (!info.success) {
+          throw new Error(info.data);
+        }
         var id = info.data._id;
 
         Swal.fire({
@@ -45,7 +47,12 @@ const NewElement = () => {
       })
 
       .catch(err => {
-        setError(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: err.hasOwnProperty("message") ? err.message : err
+        });
         console.log('There was an error', err);
       })
   };
@@ -63,24 +70,24 @@ const NewElement = () => {
         <Row className="mb-3">
           <Form.Group as={Col} className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" value={newElement.name} required />
+            <Form.Control type="text" value={newElement.name || ''} required />
           </Form.Group>
           <Form.Group as={Col} className="mb-3" controlId="nationality">
             <Form.Label>Nationality</Form.Label>
-            <Form.Control type="text" value={newElement.nationality} required />
+            <Form.Control type="text" value={newElement.nationality || ''} required />
           </Form.Group>
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} className="mb-3" controlId="born_date">
             <Form.Label>Birth date</Form.Label>
-            <Form.Control type="text" placeholder="Format: 'YYYY-mm-dd'" value={newElement.born_date} required />
+            <Form.Control type="text" placeholder="Format: 'YYYY-mm-dd'" value={newElement.born_date || ''} required />
             <Form.Text className="text-muted">
               For BC dates: "450 BC"
             </Form.Text>
           </Form.Group>
           <Form.Group as={Col} className="mb-3" controlId="death_date">
             <Form.Label>Death date</Form.Label>
-            <Form.Control type="text" value={newElement.death_date} />
+            <Form.Control type="text" value={newElement.death_date || ''} />
             <Form.Text className="text-muted">
               Same Format as Birth date
             </Form.Text>
@@ -88,7 +95,7 @@ const NewElement = () => {
         </Row>
         <Form.Group className="mb-3" controlId="photo">
           <Form.Label>Photo</Form.Label>
-          <Form.Control type="file" value={newElement.photo} />
+          <Form.Control type="file" defaultValue={newElement.photo || ''} />
         </Form.Group>
         <Button variant="primary" type="submit">
           Create new
@@ -105,7 +112,7 @@ const NewElement = () => {
         </Form.Group>
         <Form.Group as={Col} className="mb-3" controlId="description">
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} />
+          <Form.Control as="textarea" rows={3} value={newElement.description} required />
         </Form.Group>
         <Button variant="primary" type="submit">
           Create new
@@ -117,7 +124,6 @@ const NewElement = () => {
   return (
     <div className="container">
       {specificForm}
-      <h2 className="mt-5">{error}</h2>
     </div>
   )
 };

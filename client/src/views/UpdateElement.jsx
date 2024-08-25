@@ -34,10 +34,17 @@ const UpdateElement = () => {
         "Content-Type": "application/json",
       }
     })
-      .then(res => res.json())
+      .then(response => {
+        if (!response.success) {
+          console.log('success is false');
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
+
       .then((info) => {
         var updatedID = info.data._id;
-
+        console.log('Why?');
         Swal.fire({
           title: "Element updated successfully!",
           text: "Do you want to see the result?",
@@ -53,7 +60,6 @@ const UpdateElement = () => {
             navigate(collection === 'philos' ? '/philosophers' : '/schools');
           }
         });
-
       })
 
       .catch(err => {
@@ -82,7 +88,7 @@ const UpdateElement = () => {
             <Form.Control id="nationality" type="text" value={updatedElement.nationality} required />
           </Form.Group>
         </Row>
-        <Row className="mb-3">
+        {/* <Row className="mb-3">
           <Form.Group as={Col} className="mb-3" >
             <Form.Label>Birth date</Form.Label>
             <Form.Control id="born_date" type="text" placeholder="Format: 'YYYY-mm-dd'" value={updatedElement.born_date} required />
@@ -97,7 +103,7 @@ const UpdateElement = () => {
               Same Format as Birth date
             </Form.Text>
           </Form.Group>
-        </Row>
+        </Row> */}
         {/* <Form.Group className="mb-3" controlId="ideas">
           <Form.Label>Main ideas / quotes</Form.Label>
           {updatedElement.ideas.map((idea, index) => {

@@ -14,7 +14,7 @@ const getSchoolbyId = async (req, res) => {
         const { id } = req.params;
         const filteredSchool = await School.findById(id);
         if (!filteredSchool) {
-            res.status(202).json({ success: false, message: 'That ID does NOT exist.' });
+            res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
         } else {
             res.status(200).json({ success: true, data: filteredSchool });
         }
@@ -30,12 +30,12 @@ const createSchool = async (req, res) => {
 
         if (findSchool.length === 0) {
             const createdSchool = await newSchool.save();
-            res.status(201).json({ success: true, data: createdSchool });
+            return res.status(201).json({ success: true, data: createdSchool });
         } else {
-            res.status(200).json({ success: false, message: 'School of Thought already exists!' });
+            return res.status(200).json({ success: false, data: 'School of Thought already exists!' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        return res.status(400).json({ success: false, data: error.message });
     }
 }
 
@@ -45,15 +45,15 @@ const deleteSchool = async (req, res) => {
         if (id) {
             const deletedSchool = await School.findByIdAndDelete(id);
             if (!deletedSchool) {
-                return res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
+                return res.status(202).json({ DeleteSuccess: false, data: 'That ID does NOT exist.' });
             } else {
                 return res.status(200).json({ DeleteSuccess: true, message: 'School of Thought deleted successfully!', data: deletedSchool });
             }
         } else {
-            return res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
+            return res.status(202).json({ DeleteSuccess: false, data: 'You have to define an ID' });
         }
     } catch (error) {
-        return res.status(400).json({ success: false, data: error });
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 
@@ -64,15 +64,15 @@ const updateSchool = async (req, res) => {
         if (id) {
             const updatedSchool = await School.findByIdAndUpdate(id, updateBody, { new: true });
             if (!updatedSchool) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
+                return res.status(202).json({ DeleteSuccess: false, data: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'School of Thought updated successfully!', data: updatedSchool });
+                return res.status(200).json({ DeleteSuccess: true, message: 'School of Thought updated successfully!', data: updatedSchool });
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
+            return res.status(202).json({ DeleteSuccess: false, data: 'You have to define an ID' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 
