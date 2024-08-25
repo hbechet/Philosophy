@@ -88,7 +88,7 @@ const NewElement = () => {
         </Row>
         <Form.Group className="mb-3" controlId="photo">
           <Form.Label>Photo</Form.Label>
-          <Form.Control type="file" value={newElement.photo} required />
+          <Form.Control type="file" value={newElement.photo} />
         </Form.Group>
         <Button variant="primary" type="submit">
           Create new
