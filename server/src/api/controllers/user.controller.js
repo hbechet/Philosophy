@@ -51,7 +51,7 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
     try {
         const loggedUser = req.userData;
-        return res.status(201).json({ success: true, message: 'You are authorized!', data: loggedUser.email, role: loggedUser.role })
+        return res.status(201).json({ success: true, message: 'You are authorized!', data: { email: loggedUser.email, role: loggedUser.role } })
     } catch (error) {
         return res.status(400).json({ success: false, data: error.message });
     }

@@ -43,7 +43,6 @@ const NewElement = () => {
             navigate(collection === 'philos' ? '/philosophers' : '/schools');
           }
         });
-
       })
 
       .catch(err => {

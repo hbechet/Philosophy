@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import HandleFetch from '../components/HandleFetch';
+import handleFetch from '../utils/handleFetch';
 import Spinner from 'react-bootstrap/Spinner';
 
 const ViewElement = () => {
@@ -10,7 +10,7 @@ const ViewElement = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      var res = HandleFetch(id, collection);
+      var res = handleFetch(id, collection);
       res.then((info) => {
         setData(info.data);
       })

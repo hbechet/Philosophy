@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Swal from 'sweetalert2'
-import HandleFetch from '../components/HandleFetch';
+import handleFetch from '../utils/handleFetch';
 
 const UpdateElement = () => {
   const { id, collection } = useParams();
@@ -14,7 +14,7 @@ const UpdateElement = () => {
   const [updatedElement, setElementData] = useState({});
 
   useEffect(() => {
-    const data = HandleFetch(id, collection);
+    const data = handleFetch(id, collection);
     data.then((info) => {
       setElementData(info.data);
       delete updatedElement._v; // deleting version for error control
@@ -36,11 +36,10 @@ const UpdateElement = () => {
       .then(response => response.json())
       .then((info) => {
         if (!info.success) {
-          console.log(info.data);
           throw new Error(info.data);
         }
         var updatedID = info.data._id;
-        console.log('Why?');
+
         Swal.fire({
           title: "Element updated successfully!",
           text: "Do you want to see the result?",

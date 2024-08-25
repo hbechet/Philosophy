@@ -27,14 +27,13 @@ const Login = () => {
                 throw new Error('Login failed');
             }
 
-            const data = await res.json();
-            console.log(data);
+            const info = await res.json();
 
-            if (!data.success) {
-                throw new Error(data.data);
+            if (!info.success) {
+                throw new Error(info.data);
             }
 
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('token', info.token);
 
             Swal.fire({
                 title: "Logged successfully!",
@@ -70,23 +69,25 @@ const Login = () => {
     }
 
     return (
-        <div className="container content login">
-            <h1 className="mb-5">Login Page</h1>
-            <Form method="get" onSubmit={handleLogin} onChange={handleChange}>
-                <Row className="mb-3">
-                    <Form.Group as={Col} className="mb-3" >
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control id="email" type="text" value={loginData.email || ''} required />
-                    </Form.Group>
-                    <Form.Group as={Col} className="mb-3">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control id="password" type="password" value={loginData.password || ''} required />
-                    </Form.Group>
-                </Row>
-                <Button variant="primary" type="submit">
-                    Login
-                </Button>
-            </Form>
+        <div className='container'>
+            <div className="content login">
+                <h1 className="mb-5">Login Page</h1>
+                <Form method="get" onSubmit={handleLogin} onChange={handleChange}>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} className="mb-3" >
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control id="email" type="text" value={loginData.email || ''} required />
+                        </Form.Group>
+                        <Form.Group as={Col} className="mb-3">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control id="password" type="password" value={loginData.password || ''} required />
+                        </Form.Group>
+                    </Row>
+                    <Button variant="primary" type="submit">
+                        Login
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 };

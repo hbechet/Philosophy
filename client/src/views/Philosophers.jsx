@@ -4,7 +4,7 @@ import { Action } from '../components/Action';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
-import DeleteElement from '../components/DeleteElement';
+import deleteElement from '../utils/deleteElement';
 
 const Philosophers = () => {
   const [philos, setPhilos] = useState([]);
@@ -32,7 +32,7 @@ const Philosophers = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        DeleteElement(id, "philos");
+        deleteElement(id, "philos");
         Swal.fire({
           title: "Deleted!",
           text: "The element has been deleted.",

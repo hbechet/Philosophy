@@ -1,4 +1,4 @@
-async function DeleteElement(id, collection) {
+async function deleteElement(id, collection) {
 
     try {
         const res = await fetch(`http://localhost:5000/api/${collection}/delete/${id}`, {
@@ -14,4 +14,4 @@ async function DeleteElement(id, collection) {
 
 };
 
-export default DeleteElement;
+export default deleteElement;
