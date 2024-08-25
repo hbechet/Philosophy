@@ -6,7 +6,7 @@ const getAllPhilos = async (req, res) => {
         const allPhilos = await Philosopher.find();
         res.status(200).json({ success: true, data: allPhilos });
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: error.message });
     }
 };
 
@@ -15,12 +15,12 @@ const getPhilobyId = async (req, res) => {
         const { id } = req.params;
         const filteredPhilo = await Philosopher.findById(id);
         if (!filteredPhilo) {
-            res.status(202).json({ success: false, message: 'That ID does NOT exist.' });
+            res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
         } else {
             res.status(200).json({ success: true, data: filteredPhilo });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ success: false, data: error.message });
     }
 }
 
@@ -34,13 +34,12 @@ const createPhilosopher = async (req, res) => {
                 newPhilo.photo = req.file.path;
             }
             const createdPhilo = await newPhilo.save();
-            res.status(201).json({ success: true, data: createdPhilo });
+            return res.status(201).json({ success: true, data: createdPhilo });
         } else {
-            res.status(200).json({ success: false, message: 'Philosopher already exists!' });
+            return res.status(200).json({ success: false, data: 'Philosopher already exists!' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: { error: error } });
-        console.log(error);
+        return res.status(400).json({ success: false, data: error.message });
     }
 }
 
@@ -50,16 +49,16 @@ const deletePhilosopher = async (req, res) => {
         if (id) {
             const deletedPhilo = await Philosopher.findByIdAndDelete(id);
             if (!deletedPhilo) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher deleted successfully!', deletedPhilosopher: deletedPhilo });
                 deleteFile(deletedPhilo.photo);
+                return res.status(200).json({ success: true, message: 'Philosopher deleted successfully!', data: deletedPhilo });
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
+            return res.status(202).json({ success: false, data: 'You have to define an ID' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 
@@ -70,15 +69,15 @@ const updatePhilosopher = async (req, res) => {
         if (id) {
             const updatedPhilo = await Philosopher.findByIdAndUpdate(id, updateBody, { new: true });
             if (!updatedPhilo) {
-                res.status(202).json({ DeleteSuccess: false, message: 'That ID does NOT exist.' });
+                return res.status(202).json({ success: false, data: 'That ID does NOT exist.' });
             } else {
-                res.status(200).json({ DeleteSuccess: true, message: 'Philosopher updated successfully!', updatedPhilosopher: updatedPhilo });
+                return res.status(200).json({ success: true, message: 'Philosopher updated successfully!', data: updatedPhilo });
             }
         } else {
-            res.status(202).json({ DeleteSuccess: false, message: 'You have to define an ID' });
+            return res.status(202).json({ success: false, data: 'You have to define an ID' });
         }
     } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        return res.status(400).json({ success: false, data: error.message });
     }
 };
 

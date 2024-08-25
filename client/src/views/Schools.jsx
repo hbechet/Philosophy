@@ -3,14 +3,13 @@ import Card from 'react-bootstrap/Card';
 import { Action } from '../components/Action';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2'
-import DeleteElement from '../components/DeleteElement';
+import Swal from 'sweetalert2';
+import deleteElement from '../utils/deleteElement';
 import { useNavigate } from 'react-router-dom';
 
 const Philosophers = () => {
   const [schools, setSchools] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5000/api/schools/all')
@@ -21,6 +20,8 @@ const Philosophers = () => {
         console.log(error);
       });
   }, [error]);
+
+  const navigate = useNavigate();
 
   const handleDelete = (ev) => {
     const id = ev.target.id;
@@ -34,7 +35,7 @@ const Philosophers = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        DeleteElement(id, "schools");
+        deleteElement(id, "schools");
         Swal.fire({
           title: "Deleted!",
           text: "The element has been deleted.",
@@ -42,8 +43,7 @@ const Philosophers = () => {
           confirmButtonColor: "#3085d6",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate('/schools');
-            window.location.reload(false);
+            navigate('/profile');
           }
         })
       }
@@ -54,14 +54,17 @@ const Philosophers = () => {
     <div className="container content">
       <Action className="content" text="CREATE NEW ENTRY" path={'/new/schools'} delay={0} type="success" />
       <div className="philos content">
-        {schools.map((school) => {
+        {schools.map((school, index) => {
           return (
-            <Card style={{ width: '20rem' }}>
+            <Card key={index} style={{ width: '20rem' }}>
               <Card.Body>
                 <Card.Title>{school.name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{school.description}</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">{school.description.substring(0, 150) + "..."}</Card.Subtitle>
                 <Card.Text>
-                  {school.philosophers[0]}
+                  <br></br>
+                  <span>Most famous Philosopher: </span>
+                  <br></br>
+                  <i>{school.philosophers[0]}</i>
                 </Card.Text>
                 <Accordion defaultActiveKey="1">
                   <Accordion.Item eventKey="0">

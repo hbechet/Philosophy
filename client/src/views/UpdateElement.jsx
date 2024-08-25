@@ -1,108 +1,144 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Action } from '../components/Action';
-import { useElements } from '../hooks/useElements';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Swal from 'sweetalert2'
+import handleFetch from '../utils/handleFetch';
 
 const UpdateElement = () => {
-  const { id } = useParams();
-  const { data: elements, updateElement } = useElements();
+  const { id, collection } = useParams();
   const navigate = useNavigate();
 
-  const [rowData, setRowData] = useState(null);
+  const [updatedElement, setElementData] = useState({});
 
   useEffect(() => {
-    const foundElement = elements.find(element => element.id === id);
-    setRowData(foundElement);
-  }, [id, elements]);
+    const data = handleFetch(id, collection);
+    data.then((info) => {
+      setElementData(info.data);
+      delete updatedElement._v; // deleting version for error control
+    })
+      .catch((error) => {
+        console.error(`Could not get data: ${error}`);
+      })
+  }, [id, collection, updatedElement._v]);
 
-  const handleUpdate = () => {
-    const updatedData = {
-      name: document.getElementsByName('name')[0].value,
-      quantity: document.getElementsByName('quantity')[0]?.value,
-      email: document.getElementsByName('email')[0]?.value,
-      phone: document.getElementsByName('phone')[0]?.value,
-    };
+  const updateElement = (ev) => {
+    ev.preventDefault();
+    fetch(`http://localhost:5000/api/${collection}/update/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedElement),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(response => response.json())
+      .then((info) => {
+        if (!info.success) {
+          throw new Error(info.data);
+        }
+        var updatedID = info.data._id;
 
-    // Actualizar el elemento utilizando el hook
-    updateElement(id, updatedData);
+        Swal.fire({
+          title: "Element updated successfully!",
+          text: "Do you want to see the result?",
+          icon: "success",
+          showDenyButton: true,
+          confirmButtonColor: "#3085d6",
+          denyButtonColor: "#d33",
+          confirmButtonText: "Yes, please."
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(collection === 'philos' ? `/view/philos/${updatedID}` : `/view/schools/${updatedID}`);
+          } else if (result.isDenied) {
+            navigate(collection === 'philos' ? '/philosophers' : '/schools');
+          }
+        });
+      })
 
-    // Redirigir a la página correspondiente
-    navigate(id < 100 ? '/inventory' : '/providers');
+      .catch(err => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: err.hasOwnProperty("message") ? err.message : err
+        });
+        console.log('There was an error', err);
+      })
   };
 
-  if (!rowData) {
-    return <h1>Searching for element...</h1>;
+  const handleChange = (e) => {
+    const key = e.target.id;
+    const value = e.target.value;
+    setElementData({ ...updatedElement, [key]: value })
   }
 
-  const commonDetails = (
-    <div>
-      <h3>Details of {id < 100 ? 'Elemento' : 'Proveedor'}</h3>
-      <p>ID: {rowData.id}</p>
-    </div>
-  );
-
-  const specificDetails = id < 100 ? (
-    <div>
-      {commonDetails}
-      <form>
-        <label htmlFor="name">Name</label>
-        <br />
-        <input type="text" name="name" defaultValue={rowData.name} />
-        <br />
-        <label htmlFor="quantity">Stock</label>
-        <br />
-        <input type="number" name="quantity" defaultValue={rowData.quantity} />
-        <br />
-        <label htmlFor="provider">Quantity</label>
-        <br />
-        <input type="text" name="provider" defaultValue={rowData.provider} />
-        <br />
-        <br />
-        <Action text="Modificar" onClick={handleUpdate} path="/modifiedelement" delay={1000} />
-        <br />
-        <br />
-        <Action text="Eliminar" path="/modifiedelement" delay={1000} />
-      </form>
+  const specificForm = (collection === 'philos') ? (
+    <div className="content">
+      <h1 className="mb-5">Updating Philosopher: {updatedElement.name}</h1>
+      <Form method="get" onSubmit={updateElement} onChange={handleChange}>
+        <Row className="mb-3">
+          <Form.Group as={Col} className="mb-3" >
+            <Form.Label>Name</Form.Label>
+            <Form.Control id="name" type="text" value={updatedElement.name} required />
+          </Form.Group>
+          <Form.Group as={Col} className="mb-3" >
+            <Form.Label>Nationality</Form.Label>
+            <Form.Control id="nationality" type="text" value={updatedElement.nationality} required />
+          </Form.Group>
+        </Row>
+        {/* <Row className="mb-3">
+          <Form.Group as={Col} className="mb-3" >
+            <Form.Label>Birth date</Form.Label>
+            <Form.Control id="born_date" type="text" placeholder="Format: 'YYYY-mm-dd'" value={updatedElement.born_date} required />
+            <Form.Text className="text-muted">
+              For BC dates: "450 BC"
+            </Form.Text>
+          </Form.Group>
+          <Form.Group as={Col} className="mb-3" >
+            <Form.Label>Death date</Form.Label>
+            <Form.Control id="death_date" type="text" value={updatedElement.death_date} />
+            <Form.Text className="text-muted">
+              Same Format as Birth date
+            </Form.Text>
+          </Form.Group>
+        </Row> */}
+        {/* <Form.Group className="mb-3" controlId="ideas">
+          <Form.Label>Main ideas / quotes</Form.Label>
+          {updatedElement.ideas.map((idea, index) => {
+            return <Form.Control type="text" id={index} value={idea} />
+          })}
+        </Form.Group> */}
+        <Button variant="primary" type="submit">
+          Update element
+        </Button>
+      </Form>
     </div>
   ) : (
-    <div>
-      {commonDetails}
-      <form>
-        <label htmlFor="name">Name</label>
-        <br />
-        <input type="text" name="name" defaultValue={rowData.name} />
-        <br />
-        <label htmlFor="email">Email</label>
-        <br />
-        <input type="text" name="email" defaultValue={rowData.email} />
-        <br />
-        <label htmlFor="phone">Telephone</label>
-        <br />
-        <input type="text" name="phone" defaultValue={rowData.phone} />
-        <br />
-        <br />
-        <Action text="Modificar" onClick={handleUpdate} path="/modifiedelement" delay={1000} />
-        <br />
-        <br />
-        <Action text="Eliminar" path="/modifiedelement" delay={1000} />
-      </form>
+    <div className="content">
+      <h1 className="mb-5">Updating School: {updatedElement.name}</h1>
+      <Form method="get" onSubmit={updateElement} onChange={handleChange}>
+        <Form.Group as={Col} className="mb-3" >
+          <Form.Label>Name</Form.Label>
+          <Form.Control id="name" type="text" value={updatedElement.name} required />
+        </Form.Group>
+        <Form.Group as={Col} className="mb-3" >
+          <Form.Label>Description</Form.Label>
+          <Form.Control id="description" as="textarea" rows={3} value={updatedElement.description} />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Update element
+        </Button>
+      </Form>
     </div>
   );
 
   return (
-    <div className="card mb-3 card container" style={{ maxWidth: '540px' }}>
-      <div className="row g-0">
-        <div className="col-md-4">
-          <img src={"../" + rowData.image} className="img-fluid rounded-start" alt="Elemeto" />
-        </div>
-        <div className="col-md-8">
-          <div className="card-body">
-            {specificDetails}
-          </div>
-        </div>
-      </div>
+    <div className="container">
+      {specificForm}
     </div>
-  );
+  )
 };
 
 export default UpdateElement;

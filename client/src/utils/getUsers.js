@@ -1,10 +1,11 @@
-async function DeleteElement(id, collection) {
+async function getUsers(token) {
 
     try {
-        const res = await fetch(`http://localhost:5000/api/${collection}/delete/${id}`, {
-            method: 'DELETE',
+        const res = await fetch(`http://localhost:5000/api/users/all`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         });
 
@@ -17,4 +18,4 @@ async function DeleteElement(id, collection) {
 
 };
 
-export default DeleteElement;
+export default getUsers;
