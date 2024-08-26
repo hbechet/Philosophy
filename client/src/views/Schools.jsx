@@ -52,7 +52,7 @@ const Philosophers = () => {
 
   return (
     <div className="container content">
-      <Action className="content" text="CREATE NEW ENTRY" path={'/new/schools'} delay={0} type="success" />
+      <Action className="content" text="CREATE NEW ENTRY" path={'/new/school'} delay={0} type="success" />
       <div className="philos content">
         {schools.map((school, index) => {
           return (
