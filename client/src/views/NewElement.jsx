@@ -11,15 +11,16 @@ const NewElement = () => {
   const navigate = useNavigate();
 
   const [newElement, setElementData] = useState('');
+  const [newForm, setForm] = useState('');
 
   const createElement = (ev) => {
     ev.preventDefault();
+    const headertoPost = (collection === 'philos') ? '"Content-type": "multipart/form-data"' : '"Content-Type": "application/json"';
+
     fetch(`https://philo-server.onrender.com/api/${collection}/new`, {
       method: "POST",
       body: JSON.stringify(newElement),
-      headers: {
-        "Content-Type": "application/json",
-      }
+      headers: { headertoPost }
     })
       .then(response => response.json())
       .then((info) => {
@@ -62,6 +63,12 @@ const NewElement = () => {
     setElementData({ ...newElement, [key]: value })
   }
 
+  const handleFile = (e) => {
+    const key = e.target.id;
+    const value = e.target.value;
+    setElementData({ ...newElement, [key]: value })
+  }
+
   const specificForm = (collection === 'philos') ? (
     <div className="content">
       <h1 className="mb-5">Create a new Philosopher</h1>
@@ -94,7 +101,7 @@ const NewElement = () => {
         </Row>
         <Form.Group className="mb-3" controlId="photo">
           <Form.Label>Photo</Form.Label>
-          <Form.Control type="file" defaultValue={newElement.photo || ''} />
+          <Form.Control type="file" defaultValue={newElement.photo || ''} onChange={handleFile} />
         </Form.Group>
         <Button variant="primary" type="submit">
           Create new
