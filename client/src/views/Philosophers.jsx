@@ -56,7 +56,7 @@ const Philosophers = () => {
   if (token) {
     return (
       <div className="container content">
-        <Action className="content" text="CREATE NEW ENTRY" path={'/new/philos'} delay={0} type="success" />
+        <Action className="content" text="CREATE NEW ENTRY" path={'/new/philo'} delay={0} type="success" />
         <div className="philos content">
           {philos.map((philo, key) => {
             return (
