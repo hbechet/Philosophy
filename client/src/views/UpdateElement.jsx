@@ -88,28 +88,6 @@ const UpdateElement = () => {
             <Form.Control id="nationality" type="text" value={updatedElement.nationality} required />
           </Form.Group>
         </Row>
-        {/* <Row className="mb-3">
-          <Form.Group as={Col} className="mb-3" >
-            <Form.Label>Birth date</Form.Label>
-            <Form.Control id="born_date" type="text" placeholder="Format: 'YYYY-mm-dd'" value={updatedElement.born_date} required />
-            <Form.Text className="text-muted">
-              For BC dates: "450 BC"
-            </Form.Text>
-          </Form.Group>
-          <Form.Group as={Col} className="mb-3" >
-            <Form.Label>Death date</Form.Label>
-            <Form.Control id="death_date" type="text" value={updatedElement.death_date} />
-            <Form.Text className="text-muted">
-              Same Format as Birth date
-            </Form.Text>
-          </Form.Group>
-        </Row> */}
-        {/* <Form.Group className="mb-3" controlId="ideas">
-          <Form.Label>Main ideas / quotes</Form.Label>
-          {updatedElement.ideas.map((idea, index) => {
-            return <Form.Control type="text" id={index} value={idea} />
-          })}
-        </Form.Group> */}
         <Button variant="primary" type="submit">
           Update element
         </Button>
