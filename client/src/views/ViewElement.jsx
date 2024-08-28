@@ -69,7 +69,7 @@ const ViewElement = () => {
       <h4>Renowned philosophers:</h4>
       <ul>
         {data.philosophers.map((philo, key) => {
-          return <li key={key}>{philo}</li>
+          return <li key={key}>{philo.name}</li>
         })}
       </ul>
     </div>

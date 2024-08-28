@@ -64,7 +64,7 @@ const Philosophers = () => {
                   <br></br>
                   <span>Most famous Philosopher: </span>
                   <br></br>
-                  <i>{school.philosophers[0]}</i>
+                  <i>{school.philosophers[0].name}</i>
                 </Card.Text>
                 <Accordion defaultActiveKey="1">
                   <Accordion.Item eventKey="0">
